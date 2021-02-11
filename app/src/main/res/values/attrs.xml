@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SudokuBoard">
+        <attr name="gridColor" format="color"/>
+        <attr name="mainCellColor" format="color"/>
+        <attr name="secondaryCellColor" format="color"/>
+        <attr name="digitColor" format="color"/>
+        <attr name="errorDigitCellColor" format="color"/>
+        <attr name="initialDigitColor" format="color"/>
+    </declare-styleable>
+</resources>

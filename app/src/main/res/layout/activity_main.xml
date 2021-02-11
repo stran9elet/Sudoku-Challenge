@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.MainActivity">
+
+
+    <TextView
+        android:id="@+id/padding_view"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="143dp"
+        android:layout_marginLeft="143dp"
+        android:layout_marginTop="213dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/activity_main_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/padding_view">
+
+        <ImageView
+            android:id="@+id/new_game_button"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/main_buttons" />
+
+        <ImageView
+            android:id="@+id/resume_game_button"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/main_buttons" />
+
+        <ImageView
+            android:id="@+id/tournament_button"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/main_buttons" />
+
+        <ImageView
+            android:id="@+id/extra_button"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/main_buttons" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/store_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="38dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            app:srcCompat="@drawable/button_1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/daily_reward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="38dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/store_button"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/button_1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/button_1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/stats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@id/leaderboard"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="16dp">
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/button_1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/leaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@id/settings"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/button_1" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/sudokuNameBoard"
+        android:layout_width="match_parent"
+        android:layout_height="372dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/padding_view"
+        app:srcCompat="@drawable/activity_main_board" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.sudokuchallenge.Activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,9 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.sudokuchallenge.Classes.SudokuBoard;
 import com.example.sudokuchallenge.Classes.SudokuMaker;
 import com.example.sudokuchallenge.R;
+import com.google.gson.Gson;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 public class GameActivity extends AppCompatActivity {
+
+    public static final String PREFERENCE_KEY = "sudoku_objects";
+    public static final String JSON_MAKER_RESPONSE_KEY = "jsonMakerResponse";
 
     SudokuMaker sudokuMaker;
     SudokuBoard sudokuBoard;
@@ -22,9 +28,28 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-
+        String gameType = getIntent().getStringExtra("gameType");
         sudokuBoard = (SudokuBoard) findViewById(R.id.sudoku_board);
-        sudokuMaker = sudokuBoard.getSudokuMaker();
+
+        if(gameType.equals("new game")) {
+            int difficulty = getIntent().getIntExtra("difficulty", SudokuMaker.EASY);
+            sudokuBoard.setDifficulty(difficulty);
+            sudokuMaker = sudokuBoard.getSudokuMaker();
+            SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new Gson();
+            String jsonMakerResponse = gson.toJson(sudokuMaker, SudokuMaker.class);
+            editor.putString(JSON_MAKER_RESPONSE_KEY, jsonMakerResponse);
+            editor.apply();
+        }
+
+        if(gameType.equals("resume game")){
+            SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
+            String jsonMakerResponse = sharedPreferences.getString(JSON_MAKER_RESPONSE_KEY, "");
+            Gson gson = new Gson();
+            sudokuMaker = gson.fromJson(jsonMakerResponse, SudokuMaker.class);
+            sudokuBoard.isResumedActivity(true, sudokuMaker);
+        }
 
 
         ImageView imageView1 = (ImageView) findViewById(R.id.imageView1);
@@ -150,11 +175,35 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//
+//    }
+// we need to add the sudokuMaker to onStop and not onDestroy because onstop is called before the other activity is opened,
+//whereas onDestroy is called after the MainActivity's onCreate()
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String jsonMakerResponse = gson.toJson(sudokuMaker, SudokuMaker.class);
+        editor.putString(JSON_MAKER_RESPONSE_KEY, jsonMakerResponse);
+        editor.apply();
+        finish();
+    }
+
+
 
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Intent intent = new Intent(this, BlankActivity.class);
+        intent.putExtra("target", "MainActivity");
+        startActivity(intent);
+//        finish();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
@@ -166,5 +215,9 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void showLoading(){
+
     }
 }

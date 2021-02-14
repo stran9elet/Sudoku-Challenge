@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/back_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/game_type_popup"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/easy_difficulty_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="124dp"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="20dp"
+            android:text="Easy"
+            android:textColor="@color/initial_digit_color"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView10" />
+
+        <TextView
+            android:id="@+id/difficult_difficulty_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="15dp"
+            android:text="Difficult"
+            android:textColor="@color/initial_digit_color"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/medium_difficulty_view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/medium_difficulty_view"
+            app:layout_constraintTop_toBottomOf="@+id/medium_difficulty_view" />
+
+        <TextView
+            android:id="@+id/time_attack_difficulty_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="32dp"
+            android:text="Time Attack"
+            android:textColor="@color/initial_digit_color"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/difficult_difficulty_view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/difficult_difficulty_view"
+            app:layout_constraintTop_toBottomOf="@+id/difficult_difficulty_view" />
+
+        <TextView
+            android:id="@+id/medium_difficulty_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="11dp"
+            android:text="Medium"
+            android:textColor="@color/initial_digit_color"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/easy_difficulty_view"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/easy_difficulty_view"
+            app:layout_constraintTop_toBottomOf="@+id/easy_difficulty_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

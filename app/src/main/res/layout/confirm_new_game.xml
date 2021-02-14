@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/confirmation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:srcCompat="@drawable/confirmation_background" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        custom:layout_constraintBottom_toBottomOf="@id/confirmation_view"
+        custom:layout_constraintEnd_toEndOf="@id/confirmation_view"
+        custom:layout_constraintStart_toStartOf="@id/confirmation_view"
+        custom:layout_constraintTop_toTopOf="@id/confirmation_view">
+
+        <com.example.sudokuchallenge.Classes.ConfirmationTextView
+            android:id="@+id/confirmation_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="casual"
+            android:paddingLeft="35dp"
+            android:paddingRight="25dp"
+            android:text="Starting a new game will erase all your progress from the previous game.\nDo you still wish to continue?"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            custom:innerTextColor="#482B0E"
+            custom:outlineColor="@color/grid_color" />
+
+        <TextView
+            android:id="@+id/confirmation_yes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/confirmation_text_view"
+            android:fontFamily="casual"
+            android:paddingLeft="24dp"
+            android:paddingTop="4dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="4dp"
+            android:text=">Yes, start a new Game"
+            android:textColor="#482B0E"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/confirmation_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/confirmation_text_view"
+            android:fontFamily="casual"
+            android:paddingLeft="24dp"
+            android:paddingTop="4dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="4dp"
+            android:text=">No, take me back"
+            android:textColor="#482B0E"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

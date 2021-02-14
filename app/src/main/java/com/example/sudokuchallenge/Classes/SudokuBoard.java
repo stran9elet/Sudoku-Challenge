@@ -16,10 +16,13 @@ import androidx.annotation.Nullable;
 
 import com.example.sudokuchallenge.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 //the class name must be same as the attribute name you defined in the attrs file
-public class SudokuBoard extends View {
+public class SudokuBoard extends View implements Serializable {
+
+    private int difficulty = SudokuMaker.EASY;
 
     private final int gridColor;
     private final int mainCellColor;
@@ -36,7 +39,7 @@ public class SudokuBoard extends View {
 
     private final Rect digitBounds = new Rect();//to find the width and height bounds of a digit
 
-    private final SudokuMaker sudokuMaker = new SudokuMaker(SudokuMaker.EASY);
+    private SudokuMaker sudokuMaker = new SudokuMaker(SudokuMaker.EASY);
 
     private ArrayList<Pair<Integer, Integer>> errorList = new ArrayList<>();
 
@@ -235,5 +238,15 @@ public class SudokuBoard extends View {
 
     public SudokuMaker getSudokuMaker() {
         return this.sudokuMaker;
+    }
+
+    public void isResumedActivity(boolean isResumed, SudokuMaker sudokuMaker){
+        if(isResumed){
+            this.sudokuMaker = sudokuMaker;
+        }
+    }
+
+    public void setDifficulty(int difficulty){
+        this.difficulty = difficulty;
     }
 }

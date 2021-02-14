@@ -8,4 +8,9 @@
         <attr name="errorDigitCellColor" format="color"/>
         <attr name="initialDigitColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="ConfirmationTextView">
+        <attr name="outlineColor" format="color"/>
+        <attr name="innerTextColor" format="color"/>
+    </declare-styleable>
 </resources>

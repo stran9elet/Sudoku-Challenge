@@ -18,163 +18,214 @@
         custom:srcCompat="@drawable/game_background" />
 
 
-    <ImageView
-        android:id="@+id/game_board"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="200dp"
-        android:scaleType="centerCrop"
-        custom:layout_constraintBottom_toBottomOf="parent"
+    <RelativeLayout
+        android:id="@+id/sudoku"
+        android:layout_width="540dp"
+        android:layout_height="540dp"
+        android:layout_margin="-100dp"
+        android:layout_marginTop="90dp"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toTopOf="parent"
-        custom:srcCompat="@drawable/game_board" />
+        custom:layout_constraintTop_toTopOf="parent">
 
-    <com.example.sudokuchallenge.Classes.SudokuBoard
-        android:id="@+id/sudoku_board"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="225dp"
-        android:elevation="5dp"
-        android:translationZ="5dp"
-        custom:gridColor="#FFA000"
-        custom:layout_constraintBottom_toBottomOf="parent"
-        custom:layout_constraintEnd_toEndOf="parent"
-        custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toTopOf="parent"
-        custom:mainCellColor="#7E46E1F6"
-        custom:secondaryCellColor="#4664EFFB"
-        custom:digitColor="#EB000000"
-        custom:errorDigitCellColor="#E9E11434"
-        custom:initialDigitColor="#FFA000"/>
+
+        <ImageView
+            android:id="@+id/game_board"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/game_board" />
+
+        <com.example.sudokuchallenge.Classes.SudokuBoard
+            android:id="@+id/sudoku_board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="101dp"
+            android:layout_marginTop="92dp"
+            android:layout_marginRight="103dp"
+            custom:digitColor="@color/digit_color"
+            custom:errorDigitCellColor="@color/error_digit_color"
+            custom:gridColor="@color/grid_color"
+            custom:initialDigitColor="@color/initial_digit_color"
+            custom:mainCellColor="@color/main_cell_color"
+            custom:secondaryCellColor="@color/secondary_cell_color" />
+
+    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:orientation="vertical"
+        android:layout_marginTop="480dp"
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toBottomOf="@+id/sudoku_board">
+        custom:layout_constraintTop_toTopOf="@+id/sudoku">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:maxHeight="72dp">
 
             <ImageView
                 android:id="@+id/undo_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/undo_image" />
 
             <ImageView
                 android:id="@+id/redo_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/redo_image" />
 
             <ImageView
                 android:id="@+id/reset_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/reset_image" />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_gravity="start"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:maxHeight="72dp">
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_1_1" />
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_2" />
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_3" />
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_4" />
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_5" />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_gravity="start"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:maxHeight="72dp">
 
             <ImageView
                 android:id="@+id/imageView6"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_6" />
 
             <ImageView
                 android:id="@+id/imageView7"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_7" />
 
             <ImageView
                 android:id="@+id/imageView8"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_8" />
 
             <ImageView
                 android:id="@+id/imageView9"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:maxHeight="64dp"
+                android:maxWidth="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_margin="2dp"
                 android:padding="6dp"
                 custom:srcCompat="@drawable/image_view_9" />

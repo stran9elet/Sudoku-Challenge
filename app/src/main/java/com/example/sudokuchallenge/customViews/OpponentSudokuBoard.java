@@ -1,6 +1,5 @@
-package com.example.sudokuchallenge.Classes;
+package com.example.sudokuchallenge.customViews;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -9,20 +8,18 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Pair;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
 import com.example.sudokuchallenge.R;
+import com.example.sudokuchallenge.utils.OpponentSudoku;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-//the class name must be same as the attribute name you defined in the attrs file
-public class SudokuBoard extends View implements Serializable {
+public class OpponentSudokuBoard extends View {
 
-    private int difficulty = SudokuMaker.EASY;
+    private OpponentSudoku opSudoku;
 
     private final int gridColor;
     private final int mainCellColor;
@@ -39,34 +36,44 @@ public class SudokuBoard extends View implements Serializable {
 
     private final Rect digitBounds = new Rect();//to find the width and height bounds of a digit
 
-    private SudokuMaker sudokuMaker = new SudokuMaker(SudokuMaker.EASY);
-
     private ArrayList<Pair<Integer, Integer>> errorList = new ArrayList<>();
 
     private int cellDimension;
 
-    public SudokuBoard(Context context, @Nullable AttributeSet attrs) {
+    public OpponentSudokuBoard(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray boardColorArray = context.obtainStyledAttributes(attrs, R.styleable.SudokuBoard);
+        TypedArray boardColorArray = context.obtainStyledAttributes(attrs, R.styleable.OpponentSudokuBoard);
 
         try{
             //extract the individual attributes and set them in variables here
-            gridColor = boardColorArray.getInteger(R.styleable.SudokuBoard_gridColor, 0);
+            gridColor = boardColorArray.getInteger(R.styleable.OpponentSudokuBoard_opponentGridColor, 0);
             gridPaint.setColor(gridColor);
 
-            mainCellColor = boardColorArray.getColor(R.styleable.SudokuBoard_mainCellColor, 0);
-            secondaryCellColor = boardColorArray.getColor(R.styleable.SudokuBoard_secondaryCellColor, 0);
+            mainCellColor = boardColorArray.getColor(R.styleable.OpponentSudokuBoard_opponentMainCellColor, 0);
+            secondaryCellColor = boardColorArray.getColor(R.styleable.OpponentSudokuBoard_opponentSecondaryCellColor, 0);
 
-            initialDigitColor = boardColorArray.getColor(R.styleable.SudokuBoard_initialDigitColor, 0);
-            digitColor = boardColorArray.getColor(R.styleable.SudokuBoard_digitColor, 0);
-            errorDigitCellColor = boardColorArray.getColor(R.styleable.SudokuBoard_errorDigitCellColor, 0);
+            initialDigitColor = boardColorArray.getColor(R.styleable.OpponentSudokuBoard_opponentInitialDigitColor, 0);
+            digitColor = boardColorArray.getColor(R.styleable.OpponentSudokuBoard_opponentDigitColor, 0);
+            errorDigitCellColor = boardColorArray.getColor(R.styleable.OpponentSudokuBoard_opponentErrorDigitCellColor, 0);
 
 
 
         }finally {
             boardColorArray.recycle();
         }
+
+        ArrayList<ArrayList<Integer>> initialOpponentSudokuList = new ArrayList<>();
+        initialOpponentSudokuList = new ArrayList<>();
+        for(int i = 0; i<9; i++){
+            ArrayList<Integer> arrayList = new ArrayList<>();
+            for(int j = 0; j<9; j++){
+                arrayList.add(0);
+            }
+            initialOpponentSudokuList.add(arrayList);
+        }
+
+        opSudoku = new OpponentSudoku(initialOpponentSudokuList, initialOpponentSudokuList);
     }
 
     @Override
@@ -87,7 +94,7 @@ public class SudokuBoard extends View implements Serializable {
 
         gridPaint.setStyle(Paint.Style.STROKE);
         //pass here STROKE to draw only the outlines, FILL to draw filled object, and FILL_AND_STROKE to fill color and draw the outlines too
-        gridPaint.setStrokeWidth(20);
+        gridPaint.setStrokeWidth(5);
         gridPaint.setColor(gridColor);
         gridPaint.setAntiAlias(true); //to make lines sharp and avoid bleeding
 
@@ -106,12 +113,12 @@ public class SudokuBoard extends View implements Serializable {
         digitPaint.setStyle(Paint.Style.FILL);
         digitPaint.setAntiAlias(true);
 
-        colorCell(canvas, sudokuMaker.getSelectedRow(), sudokuMaker.getSelectedColumn());
-        for(int i = 0; i<sudokuMaker.getWorkingBoard().length; i++){
-            for(int j = 0; j<sudokuMaker.getWorkingBoard()[i].length; j++){
-                errorList.addAll(sudokuMaker.getInCol(sudokuMaker.getWorkingBoard(), i, j, sudokuMaker.getWorkingBoard()[i][j]));
-                errorList.addAll(sudokuMaker.getInRow(sudokuMaker.getWorkingBoard(), i, j, sudokuMaker.getWorkingBoard()[i][j]));
-                errorList.addAll(sudokuMaker.getInFamily(sudokuMaker.getWorkingBoard(), i, j, sudokuMaker.getWorkingBoard()[i][j]));
+        colorCell(canvas, opSudoku.getSelectedRow(), opSudoku.getSelectedColumn());
+        for(int i = 0; i<opSudoku.getWorkingBoard().size(); i++){
+            for(int j = 0; j<opSudoku.getWorkingBoard().get(i).size(); j++){
+                errorList.addAll(opSudoku.getInCol(opSudoku.getWorkingBoard(), i, j, opSudoku.getWorkingBoard().get(i).get(j)));
+                errorList.addAll(opSudoku.getInRow(opSudoku.getWorkingBoard(), i, j, opSudoku.getWorkingBoard().get(i).get(j)));
+                errorList.addAll(opSudoku.getInFamily(opSudoku.getWorkingBoard(), i, j, opSudoku.getWorkingBoard().get(i).get(j)));
             }
         }
 
@@ -124,7 +131,6 @@ public class SudokuBoard extends View implements Serializable {
         drawNumbers(canvas);
     }
 
-    //This method will draw lines on the board, both thick ones and the thin ones
     private void drawBoard(Canvas canvas){
 
         for(int colLine = 0; colLine<9; colLine++){ //to draw 8 col lines, makes 9 cols
@@ -151,48 +157,23 @@ public class SudokuBoard extends View implements Serializable {
 
     private void setThickLinePaint(){
         gridPaint.setStyle(Paint.Style.STROKE);
-        gridPaint.setStrokeWidth(10);
+        gridPaint.setStrokeWidth(5);
         gridPaint.setColor(gridColor);
         gridPaint.setAntiAlias(true);
     }
 
     private void setThinLinePaint(){
         gridPaint.setStyle(Paint.Style.STROKE);
-        gridPaint.setStrokeWidth(5);
+        gridPaint.setStrokeWidth(3);
         gridPaint.setColor(gridColor);
         gridPaint.setAntiAlias(true);
     }
 
-
-//this method gives us data about touch events that happen on the user's screen.
-//if the user swipes the screen, we can get data about that, or if the user taps the screen, we can also get data about that.
-//we can also get the x and y coordinates of a user's tap
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        //        return super.onTouchEvent(event);
-
-        float x = event.getX();
-        float y = event.getY();
-        //to get the x and y coordinates of the event that occurred in the user's screen
-
-        int action = event.getAction();//variable to store the event that occured
-        if(action == MotionEvent.ACTION_DOWN) { //if it was a click event
-            int selectedRow = (int) Math.ceil(y/cellDimension);
-            int selectedCol = (int) Math.ceil(x/cellDimension);
-            sudokuMaker.setSelectedRow(selectedRow);
-            sudokuMaker.setSelectedColumn(selectedCol);
-            return true;
-        }
-        return false;
-    }
-
-    //method to color the cell that user clicks
     private void colorCell(Canvas canvas, int row, int col){
         int familyRowStart = ((row-1)/3)*3;
         int familyColStart = ((col-1)/3)*3;
 
-        if(sudokuMaker.getSelectedRow() != -1 && sudokuMaker.getSelectedColumn() != -1){
+        if(opSudoku.getSelectedRow() != -1 && opSudoku.getSelectedColumn() != -1){
             canvas.drawRect((col-1)*cellDimension, 0, col*cellDimension, familyRowStart*cellDimension, secondaryCellPaint);
             canvas.drawRect((col-1)*cellDimension, familyRowStart*cellDimension + 3*cellDimension, col*cellDimension, 9*cellDimension, secondaryCellPaint);
             //to highlight a column
@@ -215,13 +196,13 @@ public class SudokuBoard extends View implements Serializable {
         digitPaint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         for(int r = 0; r<9; r++){
             for(int c = 0; c<9; c++){
-                if(sudokuMaker.getPartialBoard()[r][c]==0){
+                if(opSudoku.getPartialBoard().get(r).get(c)==0){
                     digitPaint.setColor(digitColor);
                 } else{
                     digitPaint.setColor(initialDigitColor);
                 }
-                if(sudokuMaker.getWorkingBoard()[r][c] != 0){
-                    String stringDigit = Integer.toString(sudokuMaker.getWorkingBoard()[r][c]);
+                if(opSudoku.getWorkingBoard().get(r).get(c) != 0){
+                    String stringDigit = Integer.toString(opSudoku.getWorkingBoard().get(r).get(c));
                     float digitWidth, digitHeight;
 
                     digitPaint.getTextBounds(stringDigit, 0, stringDigit.length(), digitBounds);
@@ -236,17 +217,12 @@ public class SudokuBoard extends View implements Serializable {
         }
     }
 
-    public SudokuMaker getSudokuMaker() {
-        return this.sudokuMaker;
+    public OpponentSudoku getOpponentSudoku() {
+        return this.opSudoku;
     }
 
-    public void isResumedActivity(boolean isResumed, SudokuMaker sudokuMaker){
-        if(isResumed){
-            this.sudokuMaker = sudokuMaker;
-        }
+    public void setOpponentSudoku(OpponentSudoku opSudoku){
+        this.opSudoku = opSudoku;
     }
 
-    public void setDifficulty(int difficulty){
-        this.difficulty = difficulty;
-    }
 }

@@ -9,6 +9,15 @@
         <attr name="initialDigitColor" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="OpponentSudokuBoard">
+        <attr name="opponentGridColor" format="color"/>
+        <attr name="opponentMainCellColor" format="color"/>
+        <attr name="opponentSecondaryCellColor" format="color"/>
+        <attr name="opponentDigitColor" format="color"/>
+        <attr name="opponentErrorDigitCellColor" format="color"/>
+        <attr name="opponentInitialDigitColor" format="color"/>
+    </declare-styleable>
+
     <declare-styleable name="ConfirmationTextView">
         <attr name="outlineColor" format="color"/>
         <attr name="innerTextColor" format="color"/>

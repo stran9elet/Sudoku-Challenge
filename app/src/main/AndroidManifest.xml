@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sudokuchallenge">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,15 +13,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SudokuTheme">
-        <activity android:name=".Activities.BlankActivity"></activity>
-        <activity android:name=".Activities.GameActivity" />
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".activities.SigningActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.RoomCodeActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".activities.PlayWithFriendActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".activities.BlankActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".activities.GameActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"/>
+        <activity android:name=".activities.MainActivity"
+            android:launchMode="singleTop">
+        </activity>
+
+        <receiver android:name=".customViews.NetworkChangeReceiver"
+            android:label="NetworkChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity">
+    tools:context=".activities.MainActivity"
+    android:clipChildren="false">
 
 
     <TextView
@@ -32,8 +33,10 @@
         app:srcCompat="@drawable/activity_main_background" />
 
     <LinearLayout
+        android:id="@+id/game_buttons_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="36dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="32dp"
@@ -43,133 +46,79 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/padding_view">
 
-        <ImageView
-            android:id="@+id/resume_game_button"
+        <TextView
+            android:id="@+id/space_view2"
             android:layout_width="match_parent"
-            android:layout_height="94dp"
+            android:layout_height="47dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/main_buttons" />
+            android:height="94dp" />
 
-        <ImageView
+        <TextView
             android:id="@+id/new_game_button"
             android:layout_width="match_parent"
             android:layout_height="94dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/main_buttons" />
+            android:background="@drawable/main_buttons"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="New Game"
+            android:textColor="@color/grid_color"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/tournament_button"
+        <TextView
+            android:id="@+id/resume_game_button"
             android:layout_width="match_parent"
             android:layout_height="94dp"
+            android:layout_marginTop="12dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/main_buttons" />
+            android:background="@drawable/main_buttons"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Resume Game"
+            android:textColor="@color/grid_color"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/extra_button"
+        <TextView
+            android:id="@+id/play_online_btn"
             android:layout_width="match_parent"
             android:layout_height="94dp"
+            android:layout_marginTop="12dp"
             android:layout_weight="1"
-            android:padding="8dp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/main_buttons" />
+            android:background="@drawable/main_buttons"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Play online"
+            android:textColor="@color/grid_color"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:id="@+id/store_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="38dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            app:srcCompat="@drawable/button_1" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/daily_reward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="38dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toEndOf="@id/store_button"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+        <TextView
+            android:id="@+id/play_with_friend_button"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:layout_marginTop="12dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/button_1" />
-    </LinearLayout>
+            android:background="@drawable/main_buttons"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Play with friend"
+            android:textColor="@color/grid_color"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+        <TextView
+            android:id="@+id/space_view"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/button_1" />
-    </LinearLayout>
+            android:height="94dp" />
 
-    <LinearLayout
-        android:id="@+id/stats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@id/leaderboard"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="16dp">
-
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/button_1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/leaderboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@id/settings"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/button_1" />
     </LinearLayout>
 
     <ImageView
@@ -181,5 +130,211 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/padding_view"
         app:srcCompat="@drawable/activity_main_board" />
+
+    <LinearLayout
+        android:id="@+id/menu_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clipChildren="false">
+
+        <RelativeLayout
+            android:id="@+id/row1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="32dp"
+            android:clipChildren="false">
+
+            <RelativeLayout
+                android:id="@+id/sign_in_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="false"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/main_settings_button"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:id="@+id/imageView26"
+                    android:layout_width="102dp"
+                    android:layout_height="44dp"
+                    app:srcCompat="@drawable/sign_in_btn" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Sign In"
+                    android:textColor="@color/grid_color"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/imageView21"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    app:srcCompat="@drawable/main_menu_buttons" />
+
+                <ImageView
+                    android:id="@+id/imageView29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/person_vector" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/daily_challenge_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/profile_button"
+                android:clipChildren="false">
+
+                <ImageView
+                    android:id="@+id/imageView22"
+                    android:layout_width="140dp"
+                    android:layout_height="60dp"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/daily_reward_btn" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal"
+                    android:clipChildren="false">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:clipChildren="false"
+                        android:clipToPadding="false">
+                    <ImageView
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"
+                        android:id="@+id/imageView32"
+                        android:layout_width="42dp"
+                        android:layout_height="182dp"
+                        android:layout_centerInParent="true"
+                        app:srcCompat="@drawable/calander_bg" />
+
+                        <ImageView
+                            android:id="@+id/daily_challenge_calender"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingBottom="2dp"
+                            android:adjustViewBounds="true"
+                            android:rotation="-31"
+                            app:srcCompat="@drawable/daily_challenge_calendar" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/credits_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:text="Daily\nChallenge!"
+                        android:textColor="@color/grid_color"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-condensed"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/main_settings_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    app:srcCompat="@drawable/main_menu_buttons" />
+
+                <ImageView
+                    android:id="@+id/imageView30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/settings_vector" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/row2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+
+            <RelativeLayout
+                android:id="@+id/store_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/imageView27"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    app:srcCompat="@drawable/main_menu_buttons" />
+
+                <ImageView
+                    android:id="@+id/imageView31"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    app:srcCompat="@drawable/store_vector" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imageView28"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                app:srcCompat="@drawable/main_menu_buttons" />
+        </RelativeLayout>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

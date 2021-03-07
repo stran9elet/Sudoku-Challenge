@@ -1,4 +1,4 @@
-package com.example.sudokuchallenge.Classes;
+package com.example.sudokuchallenge.customViews;
 
 import android.content.Context;
 import android.content.res.TypedArray;

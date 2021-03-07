@@ -1,13 +1,15 @@
-package com.example.sudokuchallenge.Activities;
+package com.example.sudokuchallenge.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.sudokuchallenge.Classes.SudokuMaker;
+import com.example.sudokuchallenge.utils.SudokuMaker;
 import com.example.sudokuchallenge.R;
 
 public class BlankActivity extends AppCompatActivity {
@@ -31,9 +33,13 @@ public class BlankActivity extends AppCompatActivity {
                     public void run() {
                         String gameType = intent.getStringExtra("gameType");
                         int difficulty = intent.getIntExtra("difficulty", SudokuMaker.EASY);
+                        if(difficulty == SudokuMaker.DIFFICULT){
+                            TextView extraTimeView = findViewById(R.id.extra_time_view);
+                            extraTimeView.setVisibility(View.VISIBLE);
+                        }
                         Intent intent1 = new Intent(BlankActivity.this, GameActivity.class);
                         intent1.putExtra("gameType", gameType);
-                        intent.putExtra("difficulty", difficulty);
+                        intent1.putExtra("difficulty", difficulty);
                         startActivity(intent1);
                         finish();
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

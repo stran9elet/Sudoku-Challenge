@@ -4,7 +4,8 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
 
     <ImageView
         android:id="@+id/confirmation_view"
@@ -14,7 +15,8 @@
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toTopOf="parent"
-        custom:srcCompat="@drawable/confirmation_background" />
+        custom:srcCompat="@drawable/confirmation_background"
+        android:adjustViewBounds="true"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -25,7 +27,7 @@
         custom:layout_constraintStart_toStartOf="@id/confirmation_view"
         custom:layout_constraintTop_toTopOf="@id/confirmation_view">
 
-        <com.example.sudokuchallenge.Classes.ConfirmationTextView
+        <com.example.sudokuchallenge.customViews.ConfirmationTextView
             android:id="@+id/confirmation_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

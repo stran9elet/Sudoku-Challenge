@@ -1,4 +1,4 @@
-package com.example.sudokuchallenge.Classes;
+package com.example.sudokuchallenge.utils;
 
 import android.util.Pair;
 
@@ -10,13 +10,19 @@ import java.util.Random;
 //if user clicks the submit button, then metch partial sudoku with full sudoku
 
 
-public class SudokuMaker {
+public class SudokuMaker{
+    //we can't directly put an object of SudokuMaker in firebase because of 2 reasons
+    //1. it contains a lot of useless fields which will have no use, but will take up a lot of space in the database, like the stateArrayList
+    //2. it uses arrays for various purposes, and arrays can't be made Serializable by firebase
+    //That's why we needed to make the OpponentSudoku class
 
-    // TODO: Adjust the difficulty levels, or add a toast on main activity that difficult puzzles might take a while to process
-    // perhaps 25 is good for difficult, not medium
-    public static final int EASY = 10;
-    public static final int MEDIUM = 25;
-    public static final int DIFFICULT = 50;
+    public int secondsElapsed = 0;
+    public int timeLimit = 0;
+
+    public static final int EASY = 5;
+    public static final int MEDIUM = 12;
+    public static final int DIFFICULT = 25;
+    public static final int TIME_ATTACK = 15;
 
     public static final int UNDO = 11;
     public static final int REDO = 12;
@@ -31,6 +37,7 @@ public class SudokuMaker {
 
     private ArrayList<int[][]> stateArrayList;
     private int stateIndex;
+    public boolean isFinished = false;
 
 
     public SudokuMaker(int difficulty){
@@ -45,7 +52,7 @@ public class SudokuMaker {
         createPartSudoku(difficulty);
 
         stateArrayList = new ArrayList<>();
-        int arr[][] = new int[9][9];
+        int[][] arr = new int[9][9];
         for(int i = 0; i<9; i++){
             for(int j = 0; j<9; j++){
                 arr[i][j] = partialBoard[i][j];
@@ -53,6 +60,7 @@ public class SudokuMaker {
         }
         stateArrayList.add(arr);
         stateIndex = 0;
+
 
         for(int i = 0; i<9; i++){
             System.arraycopy(stateArrayList.get(stateIndex)[i], 0, workingBoard[i], 0, workingBoard[i].length);
@@ -344,5 +352,33 @@ public class SudokuMaker {
             }
         }
         return list;
+    }
+
+    public OpponentSudoku getOpponentSudoku(){
+        ArrayList<ArrayList<Integer>> opPartialBoard = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> opWorkingBoard = new ArrayList<>();
+        for(int i = 0; i<9; i++){
+            ArrayList<Integer> arrayList = new ArrayList<>();
+            for(int j = 0; j<9; j++){
+                arrayList.add(partialBoard[i][j]);
+            }
+            opPartialBoard.add(arrayList);
+            arrayList = new ArrayList<>();
+            for(int j = 0; j<9; j++){
+                arrayList.add(workingBoard[i][j]);
+            }
+            opWorkingBoard.add(arrayList);
+        }
+        OpponentSudoku opponentSudoku = new OpponentSudoku(opPartialBoard, opWorkingBoard);
+        opponentSudoku.setSelectedRow(selectedRow);
+        opponentSudoku.setSelectedColumn(selectedColumn);
+        opponentSudoku.setFinished(isFinished);
+        return opponentSudoku;
+    }
+
+    public void finished(boolean isFinished){
+        this.isFinished = isFinished;
+        selectedRow = -1;
+        selectedColumn = -1;
     }
 }

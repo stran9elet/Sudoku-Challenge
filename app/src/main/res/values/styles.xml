@@ -6,6 +6,8 @@
         <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="android:immersive">true</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="DialogAnimation" parent="@android:style/Theme.Holo.Light.Panel">
@@ -16,5 +18,9 @@
     <style name="popUpAnim">
         <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
         <item name="android:windowAnimationStyle">@android:anim/slide_out_right</item>
+    </style>
+
+    <style name="scale_anim">
+        <item name="android:windowAnimationStyle">@anim/scale_anim</item>
     </style>
 </resources>

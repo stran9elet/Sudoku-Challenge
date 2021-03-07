@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_main_background"
+    tools:context=".activities.RoomCodeActivity">
+
+    <ImageView
+        android:id="@+id/room_code_back"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/back_button" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/create_room_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="94dp"
+            android:background="@drawable/main_buttons"
+            android:gravity="center"
+            android:text="Create a room"
+            android:paddingTop="10dp"
+            android:textSize="22sp"
+            android:textColor="@color/grid_color"
+            android:textStyle="bold"
+            android:fontFamily="casual"/>
+
+        <TextView
+            android:id="@+id/join_room_btn"
+
+            android:layout_width="wrap_content"
+            android:layout_height="94dp"
+            android:background="@drawable/main_buttons"
+            android:gravity="center"
+            android:text="Join a room"
+            android:paddingTop="10dp"
+            android:textSize="22sp"
+            android:textColor="@color/grid_color"
+            android:textStyle="bold"
+            android:fontFamily="casual"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

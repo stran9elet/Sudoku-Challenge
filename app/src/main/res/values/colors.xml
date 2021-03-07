@@ -3,9 +3,12 @@
     <color name="digit_color">#EB000000</color>
     <color name="error_digit_color">#E9E11434</color>
     <color name="grid_color">#FFA000</color>
+    <color name="grid_color_dark">#E77F04</color>
     <color name="initial_digit_color">#FFA000</color>
     <color name="main_cell_color">#7E46E1F6</color>
     <color name="secondary_cell_color">#4664EFFB</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorAccent">#662E04</color>
 </resources>

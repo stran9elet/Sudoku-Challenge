@@ -21,10 +21,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sudokuchallenge.R;
 import com.example.sudokuchallenge.customViews.SudokuBoard;
+import com.example.sudokuchallenge.models.User;
 import com.example.sudokuchallenge.utils.SudokuMaker;
+import com.example.sudokuchallenge.utils.UserPoster;
 import com.google.gson.Gson;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class GameActivity extends AppCompatActivity {
@@ -32,6 +38,12 @@ public class GameActivity extends AppCompatActivity {
 
     public static final String PREFERENCE_KEY = "sudoku_objects";
     public static final String JSON_MAKER_RESPONSE_KEY = "jsonMakerResponse";
+    public static final String DAILY_CHALLENGE_SUDOKU_MAKER = "dailyChallengeSudokuMaker";
+
+    public static final String LAST_DAY_KEY = "last day";
+    public static final String NEXT_DAY_KEY = "next day";
+    public static final String STREAK_RESET_DAY = "day after tomorrow";
+
     SudokuMaker sudokuMaker;
     SudokuBoard sudokuBoard;
     private TextView timeTextView;
@@ -42,11 +54,26 @@ public class GameActivity extends AppCompatActivity {
     private String time;
     private Handler timeHandler;
     private Runnable timeRunner;
+    private boolean isDailyChallenge;
+
+    private SharedPreferences userDataSharedPreferences;
+    private User user;
+    private SharedPreferences.Editor userDataEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        UserPoster.init(this);
+
+        userDataSharedPreferences = getSharedPreferences(SigningActivity.USER_DATA_PREFERENCE_KEY, MODE_PRIVATE);
+        String jsonUser = userDataSharedPreferences.getString(SigningActivity.USER_KEY, null);
+        Gson userGson = new Gson();
+        user = userGson.fromJson(jsonUser, User.class);
+        userDataEditor = userDataSharedPreferences.edit();
+
+        isDailyChallenge = getIntent().getBooleanExtra("dailyChallenge", false);
 
         ImageView backImage = (ImageView) findViewById(R.id.back_button);
         backImage.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +97,7 @@ public class GameActivity extends AppCompatActivity {
         if (gameType.equals("new game")) {
             difficulty = getIntent().getIntExtra("difficulty", SudokuMaker.EASY);
             sudokuBoard.setDifficulty(difficulty);
+            // i think we can get sudoku from blank activity, with the intent as a string
             sudokuMaker = sudokuBoard.getSudokuMaker();
             if (difficulty == SudokuMaker.TIME_ATTACK) {
                 sudokuMaker.timeLimit = 30*60;
@@ -78,14 +106,32 @@ public class GameActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             Gson gson = new Gson();
             String jsonMakerResponse = gson.toJson(sudokuMaker, SudokuMaker.class);
-            editor.putString(JSON_MAKER_RESPONSE_KEY, jsonMakerResponse);
+            if(isDailyChallenge){
+                editor.putString(DAILY_CHALLENGE_SUDOKU_MAKER, jsonMakerResponse);
+            }else{
+                editor.putString(JSON_MAKER_RESPONSE_KEY, jsonMakerResponse);
+                if(difficulty==SudokuMaker.EASY)
+                    user.setEasyGamesPlayed(user.getEasyGamesPlayed() + 1);
+                else if(difficulty==SudokuMaker.MEDIUM)
+                    user.setMediumGamesPlayed(user.getMediumGamesPlayed() + 1);
+                else if(difficulty==SudokuMaker.DIFFICULT)
+                    user.setDifficultGamesPlayed(user.getDifficultGamesPlayed() + 1);
+                else if(difficulty==SudokuMaker.TIME_ATTACK)
+                    user.setTimeAttackGamesPlayed(user.getTimeAttackGamesPlayed() + 1);
+            }
             editor.apply();
         }
 
         if (gameType.equals("resume game")) {
             SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
-            String jsonMakerResponse = sharedPreferences.getString(JSON_MAKER_RESPONSE_KEY, "");
+            String jsonMakerResponse;
             Gson gson = new Gson();
+            //ToDo: check for daily challenge
+            if(isDailyChallenge){
+                jsonMakerResponse = sharedPreferences.getString(DAILY_CHALLENGE_SUDOKU_MAKER, "");
+            }else{
+                jsonMakerResponse = sharedPreferences.getString(JSON_MAKER_RESPONSE_KEY, "");
+            }
             sudokuMaker = gson.fromJson(jsonMakerResponse, SudokuMaker.class);
             sudokuBoard.isResumedActivity(true, sudokuMaker);
         }
@@ -214,6 +260,10 @@ public class GameActivity extends AppCompatActivity {
         timeTextView = (TextView) findViewById(R.id.time_view);
         timeOutTextView = (ImageView) findViewById(R.id.timeout_view);
         runStopwatch();
+
+        String userJson = userGson.toJson(user);
+        userDataEditor.putString(SigningActivity.USER_KEY, userJson);
+        userDataEditor.apply();
     }
 
     @Override
@@ -223,7 +273,11 @@ public class GameActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String jsonMakerResponse = gson.toJson(sudokuMaker, SudokuMaker.class);
-        editor.putString(JSON_MAKER_RESPONSE_KEY, jsonMakerResponse);
+        if (isDailyChallenge) {
+            editor.putString(DAILY_CHALLENGE_SUDOKU_MAKER, jsonMakerResponse);
+        } else {
+            editor.putString(JSON_MAKER_RESPONSE_KEY, jsonMakerResponse);
+        }
         editor.apply();
     }
 
@@ -346,6 +400,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showFinishing(){
+
+        String jsonUser1 = userDataSharedPreferences.getString(SigningActivity.USER_KEY, null);
+        Gson userGson = new Gson();
+        User user = userGson.fromJson(jsonUser1, User.class);
+
         timeHandler.removeCallbacks(timeRunner);
         sudokuMaker.finished(true);
         sudokuBoard.invalidate();
@@ -354,6 +413,59 @@ public class GameActivity extends AppCompatActivity {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
         dialog.show();
+
+        SharedPreferences sharedPreferences1 = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = sharedPreferences1.edit();
+        editor3.putString(JSON_MAKER_RESPONSE_KEY, "");
+        editor3.apply();
+
+        if(isDailyChallenge){
+
+            if(difficulty==SudokuMaker.EASY)
+                user.setEasyGamesCompleted(user.getEasyGamesCompleted() + 1);
+            else if(difficulty==SudokuMaker.MEDIUM)
+                user.setMediumGamesCompleted(user.getMediumGamesCompleted() + 1);
+            else if(difficulty==SudokuMaker.DIFFICULT)
+                user.setDifficultGamesCompleted(user.getDifficultGamesCompleted() + 1);
+            else if(difficulty==SudokuMaker.TIME_ATTACK)
+                user.setTimeAttackGamesCompleted(user.getTimeAttackGamesCompleted() + 1);
+
+            SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(DAILY_CHALLENGE_SUDOKU_MAKER, "");
+            editor.apply();
+
+            Calendar calendar = Calendar.getInstance();
+            Date today = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date tomorrow = calendar.getTime();
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date dayAfterTomorrow = calendar.getTime();
+
+            DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+            String todayAsString = dateFormat.format(today);
+            String tomorrowAsString = dateFormat.format(tomorrow);
+            String dayAfterTomorrowAsString = dateFormat.format(dayAfterTomorrow);
+
+            String expectedDate = userDataSharedPreferences.getString(NEXT_DAY_KEY, "");
+            if(todayAsString.equals(expectedDate) || user.getDailyChallengeStreak()==0)
+                user.setDailyChallengeStreak(user.getDailyChallengeStreak() + 1);
+            user.setDailyChallengesCompleted(user.getDailyChallengesCompleted() + 1);
+            SharedPreferences.Editor editor2 = userDataSharedPreferences.edit();
+            Gson gson = new Gson();
+            String jsonUser = gson.toJson(user);
+            editor2.putString(SigningActivity.USER_KEY, jsonUser);
+            editor2.apply();
+
+            SharedPreferences.Editor editor1 = userDataSharedPreferences.edit();
+            editor1.putString(LAST_DAY_KEY, todayAsString);
+            editor1.putString(NEXT_DAY_KEY, tomorrowAsString);
+            editor1.putString(STREAK_RESET_DAY, dayAfterTomorrowAsString);
+            editor1.apply();
+        }
 
         ImageView viewGame = dialog.findViewById(R.id.end_back_btn);
         TextView playAgain = dialog.findViewById(R.id.end_play_again);
@@ -381,25 +493,29 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showFinishing();
+                        showEndDialog();
                     }
                 });
             }
         });
 
-        playAgain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                Intent intent = new Intent(GameActivity.this, BlankActivity.class);
-                intent.putExtra("target", "GameActivity");
-                intent.putExtra("gameType", gameType);
-                intent.putExtra("difficulty", difficulty);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                finish();
-            }
-        });
+        if(isDailyChallenge){
+            playAgain.setVisibility(View.GONE);
+        }else {
+            playAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Intent intent = new Intent(GameActivity.this, BlankActivity.class);
+                    intent.putExtra("target", "GameActivity");
+                    intent.putExtra("gameType", gameType);
+                    intent.putExtra("difficulty", difficulty);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                }
+            });
+        }
 
         returnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -408,6 +524,113 @@ public class GameActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private void showEndDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.end_dialog);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
+        dialog.show();
+
+        ImageView complete = dialog.findViewById(R.id.complete);
+
+        ImageView viewGame = dialog.findViewById(R.id.end_back_btn);
+        TextView playAgain = dialog.findViewById(R.id.end_play_again);
+        TextView returnHome = dialog.findViewById(R.id.end_return_home);
+        TextView timeTaken = dialog.findViewById(R.id.end_time_taken);
+        timeTaken.setText("Time taken: " + time);
+
+        PushDownAnim.setPushDownAnimTo(viewGame, playAgain, returnHome).setScale(0.8f);
+
+        viewGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                //check it
+                LinearLayout linearLayout = findViewById(R.id.btn_row_1);
+                LinearLayout linearLayout1 = findViewById(R.id.btn_row_2);
+                LinearLayout linearLayout2 = findViewById(R.id.btn_row_3);
+
+                linearLayout.setVisibility(View.GONE);
+                linearLayout1.setVisibility(View.GONE);
+                linearLayout2.setVisibility(View.GONE);
+
+                TextView button = findViewById(R.id.complete_btn);
+                button.setVisibility(View.VISIBLE);
+                PushDownAnim.setPushDownAnimTo(button).setScale(0.8f);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showEndDialog();
+                    }
+                });
+            }
+        });
+
+        if(isDailyChallenge){
+            playAgain.setVisibility(View.GONE);
+        }else {
+            playAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Intent intent = new Intent(GameActivity.this, BlankActivity.class);
+                    intent.putExtra("target", "GameActivity");
+                    intent.putExtra("gameType", gameType);
+                    intent.putExtra("difficulty", difficulty);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                }
+            });
+        }
+
+        returnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                onBackPressed();
+            }
+        });
+    }
+
+    private void countStreak(){
+        String[] monthsArr = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        int[] daysOfMonth = {31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        String currentDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
+
+        int currentYear = Integer.parseInt(currentDate.substring(7));
+        String month = currentDate.substring(3,6);
+        int day = Integer.parseInt(currentDate.substring(0,2));
+        boolean isLeapYear;
+        if(currentYear%4==0){
+            if(currentYear%100==0){
+                if(currentYear%400==0)
+                    isLeapYear = true;
+                else
+                    isLeapYear = false;
+            }else
+                isLeapYear = true;
+        }else{
+            isLeapYear = false;
+        }
+
+        if (isLeapYear)
+            daysOfMonth[1] = 29;
+        else
+            daysOfMonth[1] = 28;
+
+        int index = -1;
+        for(int i = 0; i<12; i++){
+            if(month.equals(monthsArr[i]))
+                index = i;
+        }
+
+        if(day>daysOfMonth[index]) {
+            day = 1;
+        }
+
     }
 
 }

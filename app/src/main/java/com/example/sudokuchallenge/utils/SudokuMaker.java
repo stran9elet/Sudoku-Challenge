@@ -2,6 +2,7 @@ package com.example.sudokuchallenge.utils;
 
 import android.util.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,7 +11,7 @@ import java.util.Random;
 //if user clicks the submit button, then metch partial sudoku with full sudoku
 
 
-public class SudokuMaker{
+public class SudokuMaker implements Serializable {
     //we can't directly put an object of SudokuMaker in firebase because of 2 reasons
     //1. it contains a lot of useless fields which will have no use, but will take up a lot of space in the database, like the stateArrayList
     //2. it uses arrays for various purposes, and arrays can't be made Serializable by firebase

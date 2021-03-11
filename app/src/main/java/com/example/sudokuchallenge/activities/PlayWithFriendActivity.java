@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -80,7 +79,6 @@ public class PlayWithFriendActivity extends AppCompatActivity {
         String jsonUser = sharedPreferences.getString(SigningActivity.USER_KEY, null);
         Gson gson = new Gson();
         User currentUser = gson.fromJson(jsonUser, User.class);
-        Log.d("myUser", currentUser.getEmail());
 
         difficulty = getIntent().getIntExtra("difficulty", SudokuMaker.MEDIUM);
         sudokuBoard = (SudokuBoard) findViewById(R.id.sudoku_board_friend);
@@ -519,6 +517,14 @@ public class PlayWithFriendActivity extends AppCompatActivity {
 
                 //Play again
 
+            }
+        });
+
+        returnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                onBackPressed();
             }
         });
 

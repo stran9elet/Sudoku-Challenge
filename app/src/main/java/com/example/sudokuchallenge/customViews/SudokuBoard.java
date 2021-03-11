@@ -264,4 +264,8 @@ public class SudokuBoard extends View implements Serializable {
         sudokuMaker = new SudokuMaker(this.difficulty);
     }
 
+    public void setSudokuMaker(SudokuMaker sudokuMaker){
+        this.sudokuMaker = sudokuMaker;
+    }
+
 }

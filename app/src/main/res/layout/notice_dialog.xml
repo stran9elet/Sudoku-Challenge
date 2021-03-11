@@ -5,27 +5,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true">
+    android:layout_centerInParent="true"
+    android:background="@drawable/confirmation_background">
 
-    <ImageView
-        android:id="@+id/confirmation_view"
-        android:layout_width="wrap_content"
+<!--    <ImageView-->
+<!--        android:id="@+id/confirmation_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        custom:layout_constraintBottom_toBottomOf="parent"-->
+<!--        custom:layout_constraintEnd_toEndOf="parent"-->
+<!--        custom:layout_constraintStart_toStartOf="parent"-->
+<!--        custom:layout_constraintTop_toTopOf="parent"-->
+<!--        custom:srcCompat="@drawable/confirmation_background"-->
+<!--        android:adjustViewBounds="true"/>-->
+
+    <LinearLayout
+        android:id="@+id/notice_view"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toTopOf="parent"
-        custom:srcCompat="@drawable/confirmation_background"
-        android:adjustViewBounds="true"/>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        custom:layout_constraintBottom_toBottomOf="@id/confirmation_view"
-        custom:layout_constraintEnd_toEndOf="@id/confirmation_view"
-        custom:layout_constraintStart_toStartOf="@id/confirmation_view"
-        custom:layout_constraintTop_toTopOf="@id/confirmation_view">
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="42dp"
+        android:minHeight="250dp">
 
         <com.example.sudokuchallenge.customViews.ConfirmationTextView
             android:id="@+id/confirmation_question"
@@ -83,5 +88,79 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/nickname_card"
+        android:visibility="gone"
+        android:elevation="10dp"
+        android:translationZ="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/confirmation_text_view"
+        custom:cardBackgroundColor="@color/grid_color"
+        custom:cardCornerRadius="50dp"
+        custom:contentPaddingLeft="12dp"
+        custom:contentPaddingRight="12dp"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/new_nickname_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:background="@color/grid_color"
+                android:ems="10"
+                android:fontFamily="casual"
+                android:hint="Enter new nickname . . ."
+                android:inputType="textPersonName"
+                android:paddingLeft="18dp"
+                android:paddingTop="12dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="8dp"
+                android:textColor="#662E04"
+                android:textColorHighlight="#662E04"
+                android:textColorHint="#662E04"
+                android:textColorLink="#662E04"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:maxLength="28" />
+
+            <RelativeLayout
+                android:id="@+id/new_sign_in_button"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_weight="10"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/sign_in_button_background" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_centerInParent="true"
+                    custom:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

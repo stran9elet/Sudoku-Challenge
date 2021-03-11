@@ -40,6 +40,7 @@ public class BlankActivity extends AppCompatActivity {
                         Intent intent1 = new Intent(BlankActivity.this, GameActivity.class);
                         intent1.putExtra("gameType", gameType);
                         intent1.putExtra("difficulty", difficulty);
+                        intent1.putExtra("dailyChallenge", getIntent().getBooleanExtra("dailyChallenge", false));
                         startActivity(intent1);
                         finish();
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

@@ -30,9 +30,6 @@ public class SigningActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(USER_DATA_PREFERENCE_KEY, MODE_PRIVATE);
         if(sharedPreferences.contains(USER_KEY)){
-            Gson gson = new Gson();
-            User user = gson.fromJson(sharedPreferences.getString(USER_KEY, null), User.class);
-            User.setCurrentUser(user);
             Intent intent = new Intent(SigningActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -48,7 +45,6 @@ public class SigningActivity extends AppCompatActivity {
 //                    dataEditor.putString(NICKNAME_KEY, nickname);
 //                    dataEditor.apply();
                     User user = new User(nickname, 0);
-                    User.setCurrentUser(user);
                     Gson gson = new Gson();
                     String jsonUser = gson.toJson(user);
                     dataEditor.putString(USER_KEY, jsonUser);

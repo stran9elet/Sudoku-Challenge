@@ -96,9 +96,11 @@ public class GameActivity extends AppCompatActivity {
 
         if (gameType.equals("new game")) {
             difficulty = getIntent().getIntExtra("difficulty", SudokuMaker.EASY);
-            sudokuBoard.setDifficulty(difficulty);
+//            sudokuBoard.setDifficulty(difficulty);
             // i think we can get sudoku from blank activity, with the intent as a string
-            sudokuMaker = sudokuBoard.getSudokuMaker();
+//            sudokuMaker = sudokuBoard.getSudokuMaker();
+            sudokuMaker = (SudokuMaker)  getIntent().getSerializableExtra("sudokuMaker");
+            sudokuBoard.setSudokuMaker(sudokuMaker);
             if (difficulty == SudokuMaker.TIME_ATTACK) {
                 sudokuMaker.timeLimit = 30*60;
             }

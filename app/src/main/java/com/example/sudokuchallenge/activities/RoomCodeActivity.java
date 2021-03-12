@@ -10,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -232,7 +231,7 @@ public class RoomCodeActivity extends AppCompatActivity{
         if(codePresent){
             return false;
         } else{
-            roomQueueReference = database.getReference().child("RoomQueue").push();
+            roomQueueReference = database.getReference().child("RoomQueue").child(code);
             roomQueueReference.setValue(roomQueue);
             return true;
         }
@@ -345,15 +344,55 @@ public class RoomCodeActivity extends AppCompatActivity{
                 ArrayList<RoomQueues> roomQueuesArrayList = new ArrayList<>();
                 if(code.length()==6){
                     loading.setVisibility(View.VISIBLE);
-                    database.getReference().child("RoomQueue").addListenerForSingleValueEvent(new ValueEventListener() {
+//                    database.getReference().child("RoomQueue").addListenerForSingleValueEvent(new ValueEventListener() {
+//                        boolean roomExists = false;
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            for(DataSnapshot snapshot1 : snapshot.getChildren()){
+//                                RoomQueues roomQueues = snapshot1.getValue(RoomQueues.class);
+//                                Log.d("myTag", roomQueues.getRoomCode());
+//                                if (roomQueues.getRoomCode().equals(code)) {
+//                                    joinRoomDialog.dismiss();
+//                                    roomExists = true;
+//                                    String id1 = roomQueues.getCreatorId();
+//                                    String id2 = auth.getCurrentUser().getUid();
+//                                    String roomId;
+//                                    if(id1.compareTo(id2) < 0)
+//                                        roomId = id1 + id2;
+//                                    else
+//                                        roomId = id2 + id1;
+////                                    String roomId = roomQueues.getCreatorId() + auth.getCurrentUser().getUid();
+//                                    Intent intent = new Intent(RoomCodeActivity.this, PlayWithFriendActivity.class);
+//                                    intent.putExtra("code", code);
+//                                    intent.putExtra("roomId", roomId);
+//                                    intent.putExtra("role", "sidekick");
+//                                    intent.putExtra("difficulty", roomQueues.getDifficulty());
+//                                    startActivity(intent);
+//                                    finish();
+//                                    break;
+//                                }
+//                            }
+//                            loading.setVisibility(View.GONE);
+//                            if(!roomExists){
+//                                Toast.makeText(RoomCodeActivity.this, "Room doesn't exists", Toast.LENGTH_SHORT).show();
+//                            }else {
+////                                joinRoomDialog.dismiss();
+//                                finish();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//                        }
+//                    });
+
+                    database.getReference().child("RoomQueue").child(code).addListenerForSingleValueEvent(new ValueEventListener() {
                         boolean roomExists = false;
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                                RoomQueues roomQueues = snapshot1.getValue(RoomQueues.class);
-                                Log.d("myTag", roomQueues.getRoomCode());
-                                if (roomQueues.getRoomCode().equals(code)) {
+                            if(snapshot.exists()){
                                     joinRoomDialog.dismiss();
+                                    RoomQueues roomQueues = snapshot.getValue(RoomQueues.class);
                                     roomExists = true;
                                     String id1 = roomQueues.getCreatorId();
                                     String id2 = auth.getCurrentUser().getUid();
@@ -362,7 +401,6 @@ public class RoomCodeActivity extends AppCompatActivity{
                                         roomId = id1 + id2;
                                     else
                                         roomId = id2 + id1;
-//                                    String roomId = roomQueues.getCreatorId() + auth.getCurrentUser().getUid();
                                     Intent intent = new Intent(RoomCodeActivity.this, PlayWithFriendActivity.class);
                                     intent.putExtra("code", code);
                                     intent.putExtra("roomId", roomId);
@@ -370,9 +408,9 @@ public class RoomCodeActivity extends AppCompatActivity{
                                     intent.putExtra("difficulty", roomQueues.getDifficulty());
                                     startActivity(intent);
                                     finish();
-                                    break;
-                                }
+
                             }
+
                             loading.setVisibility(View.GONE);
                             if(!roomExists){
                                 Toast.makeText(RoomCodeActivity.this, "Room doesn't exists", Toast.LENGTH_SHORT).show();
@@ -380,10 +418,12 @@ public class RoomCodeActivity extends AppCompatActivity{
 //                                joinRoomDialog.dismiss();
                                 finish();
                             }
+
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
+
                         }
                     });
                 }

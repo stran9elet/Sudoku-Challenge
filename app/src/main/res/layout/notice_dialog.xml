@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:background="@drawable/confirmation_background">
+    android:background="@drawable/confirmation_background"
+    android:minHeight="250dp">
 
 <!--    <ImageView-->
 <!--        android:id="@+id/confirmation_view"-->
@@ -28,9 +28,9 @@
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
         android:layout_marginTop="42dp"
-        android:layout_marginBottom="42dp"
-        android:minHeight="250dp">
+        android:layout_marginBottom="42dp">
 
         <com.example.sudokuchallenge.customViews.ConfirmationTextView
             android:id="@+id/confirmation_question"

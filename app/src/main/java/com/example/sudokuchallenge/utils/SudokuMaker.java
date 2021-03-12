@@ -20,9 +20,9 @@ public class SudokuMaker implements Serializable {
     public int secondsElapsed = 0;
     public int timeLimit = 0;
 
-    public static final int EASY = 5;
-    public static final int MEDIUM = 12;
-    public static final int DIFFICULT = 25;
+    public static final int EASY = 10;
+    public static final int MEDIUM = 20;
+    public static final int DIFFICULT = 50;
     public static final int TIME_ATTACK = 15;
 
     public static final int UNDO = 11;

@@ -32,14 +32,43 @@ public class SudokuMaker implements Serializable {
     private int selectedRow;
     private int selectedColumn;
 
-    private final int[][] fullBoard;
-    private final int[][] partialBoard;
+    private int[][] fullBoard = null;
+    private int[][] partialBoard = null;
     private int[][] workingBoard;
 
     private ArrayList<int[][]> stateArrayList;
     private int stateIndex;
     public boolean isFinished = false;
 
+    public SudokuMaker(){
+    }
+
+    public void setDifficulty(int difficulty){
+        selectedRow = -1;
+        selectedColumn = -1;
+
+        fullBoard = new int[9][9];
+        partialBoard = new int[9][9];
+        workingBoard = new int[9][9];
+
+        makeSudoku();
+        createPartSudoku(difficulty);
+
+        stateArrayList = new ArrayList<>();
+        int[][] arr = new int[9][9];
+        for(int i = 0; i<9; i++){
+            for(int j = 0; j<9; j++){
+                arr[i][j] = partialBoard[i][j];
+            }
+        }
+        stateArrayList.add(arr);
+        stateIndex = 0;
+
+
+        for(int i = 0; i<9; i++){
+            System.arraycopy(stateArrayList.get(stateIndex)[i], 0, workingBoard[i], 0, workingBoard[i].length);
+        }
+    }
 
     public SudokuMaker(int difficulty){
         selectedRow = -1;

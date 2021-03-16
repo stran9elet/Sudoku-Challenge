@@ -13,6 +13,8 @@ public class Room implements Serializable {
     private int difficulty;
     private OpponentSudoku creatorSudoku;
     private OpponentSudoku sidekickSudoku;
+    public boolean creatorHasLoaded = false;
+    public boolean sidekickHasLoaded = false;
 
     public Room(){
     }

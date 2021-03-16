@@ -71,7 +71,8 @@
         custom:gridColor="@color/grid_color"
         custom:initialDigitColor="@color/initial_digit_color"
         custom:mainCellColor="@color/main_cell_color"
-        custom:secondaryCellColor="@color/secondary_cell_color"/>
+        custom:secondaryCellColor="@color/secondary_cell_color"
+        android:keepScreenOn="true"/>
 
 
 </RelativeLayout>

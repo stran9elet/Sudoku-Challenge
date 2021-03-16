@@ -30,48 +30,11 @@ public class BlankActivity extends AppCompatActivity {
 
         switch (target) {
             case "GameActivity":
-
-//                handler = new Handler();
-//                runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        String gameType = intent.getStringExtra("gameType");
-//                        int difficulty = intent.getIntExtra("difficulty", SudokuMaker.EASY);
-//                        if(difficulty == SudokuMaker.DIFFICULT){
-//                            TextView extraTimeView = findViewById(R.id.extra_time_view);
-//                            extraTimeView.setVisibility(View.VISIBLE);
-//                        }
-//                        Intent intent1 = new Intent(BlankActivity.this, GameActivity.class);
-//                        intent1.putExtra("gameType", gameType);
-//                        intent1.putExtra("difficulty", difficulty);
-//                        intent1.putExtra("dailyChallenge", getIntent().getBooleanExtra("dailyChallenge", false));
-//                        startActivity(intent1);
-//                        finish();
-//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                    }
-//                };
-//                handler.postDelayed(runnable, 850); //This much time your blank activity will remain open\
-//                handler = new Handler();
-//                runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        String gameType = intent.getStringExtra("gameType");
-//                        int difficulty = intent.getIntExtra("difficulty", SudokuMaker.MEDIUM);
-//                        SudokuMaker sudokuMaker = new SudokuMaker(difficulty);
-//                        Intent intent1 = new Intent(BlankActivity.this, GameActivity.class);
-//                        intent1.putExtra("gameType", gameType);
-//                        intent1.putExtra("difficulty", difficulty);
-//                        intent1.putExtra("dailyChallenge", getIntent().getBooleanExtra("dailyChallenge", false));
-//                        startActivity(intent1);
-//                        finish();
-//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                    }
-//                };
                 if(getIntent().getIntExtra("difficulty", 0) == SudokuMaker.DIFFICULT) {
                     TextView extraTimeView = findViewById(R.id.extra_time_view);
                     extraTimeView.setVisibility(View.VISIBLE);
                 }
-                new startGameActivityTask(this).execute(getIntent());
+                new StartGameActivityTask(this).execute(getIntent());
                 break;
 
             case "MainActivity":
@@ -114,12 +77,12 @@ public class BlankActivity extends AppCompatActivity {
 
 
 }
-class startGameActivityTask extends AsyncTask<Intent, Void, SudokuMaker>{
+class StartGameActivityTask extends AsyncTask<Intent, Void, SudokuMaker>{
     private Context context;
     String gameType;
     int difficulty;
     boolean isDailyChallenge;
-    public startGameActivityTask(Context context){
+    public StartGameActivityTask(Context context){
         this.context = context;
     }
 

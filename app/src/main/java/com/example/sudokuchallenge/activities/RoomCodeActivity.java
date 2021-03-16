@@ -6,10 +6,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,13 +67,64 @@ public class RoomCodeActivity extends AppCompatActivity{
 
     private DatabaseReference roomQueueReference;
 
+    private boolean creatorHasLoaded;
+    private boolean sidekickHasLoaded;
+
+    private int naturePosition;
+    private int northernPosition;
+
+    private boolean loadingAlreadyStarted;
+
+    private Handler handler;
+    private Runnable runnable;
+
+    private MediaPlayer northPlayer;
+    private MediaPlayer naturePlayer;
+
+    private SoundPool soundPool;
+    private int buttonSound;
+
+    SudokuMaker sudokuMaker;
+
+    private static final int MAX_VOLUME = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_code);
 
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(!isNetworkAvailable()) {
+                    setNetworkError();
+                } else
+                    handler.postDelayed(this, 1000);
+            }
+        };
+        handler.post(runnable);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION) //you can just press ctrl+b after clicking on USAGE_, and it will take you to a new java file where you can see descriptions of all these usage constants
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION) //same here as above, press ctrl+b
+                    .build();
+
+            soundPool = new SoundPool.Builder().setMaxStreams(1).setAudioAttributes(audioAttributes).build();
+        } else{
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        }
+        buttonSound = soundPool.load(this, R.raw.button_click, 1);//priority doesn't has any effect here, but it's recommended to pass a 1 here for future compatibility
+        //oh! and don't forget to override onDestroy to release the soundPool object
+
+
+
+        loadingAlreadyStarted = false;
+
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        sudokuMaker = new SudokuMaker();
 
         createRoomBtn = findViewById(R.id.create_room_btn);
         joinRoomBtn = findViewById(R.id.join_room_btn);
@@ -77,30 +135,22 @@ public class RoomCodeActivity extends AppCompatActivity{
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
                 onBackPressed();
-            }
-        });
-
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(!isNetworkAvailable()) {
-                    setNetworkError();
-                } else
-                    handler.postDelayed(this, 1000);
             }
         });
 
         createRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
                 showDifficultySelectorDialog();
             }
         });
         joinRoomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
                 showJoinRoomDialog();
             }
         });
@@ -132,7 +182,9 @@ public class RoomCodeActivity extends AppCompatActivity{
         TextView mediumView = difficultyDialog.findViewById(R.id.medium_difficulty_view);
         TextView difficultView = difficultyDialog.findViewById(R.id.difficult_difficulty_view);
         TextView timeAttackView = difficultyDialog.findViewById(R.id.time_attack_difficulty_view);
-        timeAttackView.setVisibility(View.GONE);
+        TextView timeAttackBorder = difficultyDialog.findViewById(R.id.time_attack_border);
+        timeAttackBorder.setVisibility(View.INVISIBLE);
+        timeAttackView.setVisibility(View.INVISIBLE);
 
         easyView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,22 +330,34 @@ public class RoomCodeActivity extends AppCompatActivity{
 
         String[] codeArr = new String[1];
         codeArr[0] = code;
-        ArrayList<Room> currentRooms = new ArrayList<>();
-        database.getReference().child("Rooms").addValueEventListener(new ValueEventListener() {
+        database.getReference().child("Rooms").child(code).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentRooms.clear();
-                for(DataSnapshot snapshot1: snapshot.getChildren()){
-                    Room room = snapshot1.getValue(Room.class);
-                    if(codeArr[0].equals(room.getRoomCode())){
+                if(snapshot.exists()){
+                    Room room = snapshot.getValue(Room.class);
+                    Intent intent = new Intent(RoomCodeActivity.this, PlayWithFriendActivity.class);
+                    intent.putExtra("role", "creator");
+                    intent.putExtra("difficulty", difficulty);
+                    intent.putExtra("code", codeArr[0]);
+                    intent.putExtra("roomId", codeArr[0]);
+                    intent.putExtra("sudokuMaker", sudokuMaker);
+                    if(room.creatorHasLoaded && room.sidekickHasLoaded){
+                        // send intent
+                        Log.d("TAG", "Loaded both");
+                        database.getReference().child("Rooms").child(codeArr[0]).removeEventListener(this);
                         createRoomDialog.dismiss();
-                        Intent intent = new Intent(RoomCodeActivity.this, PlayWithFriendActivity.class);
-                        intent.putExtra("role", "creator");
-                        intent.putExtra("room", room);
-                        intent.putExtra("difficulty", difficulty);
                         startActivity(intent);
                         finish();
-                        break;
+                    } else if(room.creatorHasLoaded && !room.sidekickHasLoaded){
+                        // wait/do nothing
+                        Log.d("TAG", "Loaded creator not sidekick");
+                    } else if(!room.creatorHasLoaded){
+                        // load sudoku
+                        if(!loadingAlreadyStarted) {
+                            Log.d("TAG", "Loading creator");
+                            new StartFriendActivityTask(RoomCodeActivity.this, sudokuMaker).execute(intent);
+                            loadingAlreadyStarted = true;
+                        }
                     }
                 }
             }
@@ -342,83 +406,66 @@ public class RoomCodeActivity extends AppCompatActivity{
                 LottieAnimationView loading = joinRoomDialog.findViewById(R.id.room_loading);
                 String code = roomCodeText.getText().toString().trim();
                 ArrayList<RoomQueues> roomQueuesArrayList = new ArrayList<>();
-                if(code.length()==6){
+                if(code.length()==6) {
                     loading.setVisibility(View.VISIBLE);
-//                    database.getReference().child("RoomQueue").addListenerForSingleValueEvent(new ValueEventListener() {
-//                        boolean roomExists = false;
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            for(DataSnapshot snapshot1 : snapshot.getChildren()){
-//                                RoomQueues roomQueues = snapshot1.getValue(RoomQueues.class);
-//                                Log.d("myTag", roomQueues.getRoomCode());
-//                                if (roomQueues.getRoomCode().equals(code)) {
-//                                    joinRoomDialog.dismiss();
-//                                    roomExists = true;
-//                                    String id1 = roomQueues.getCreatorId();
-//                                    String id2 = auth.getCurrentUser().getUid();
-//                                    String roomId;
-//                                    if(id1.compareTo(id2) < 0)
-//                                        roomId = id1 + id2;
-//                                    else
-//                                        roomId = id2 + id1;
-////                                    String roomId = roomQueues.getCreatorId() + auth.getCurrentUser().getUid();
-//                                    Intent intent = new Intent(RoomCodeActivity.this, PlayWithFriendActivity.class);
-//                                    intent.putExtra("code", code);
-//                                    intent.putExtra("roomId", roomId);
-//                                    intent.putExtra("role", "sidekick");
-//                                    intent.putExtra("difficulty", roomQueues.getDifficulty());
-//                                    startActivity(intent);
-//                                    finish();
-//                                    break;
-//                                }
-//                            }
-//                            loading.setVisibility(View.GONE);
-//                            if(!roomExists){
-//                                Toast.makeText(RoomCodeActivity.this, "Room doesn't exists", Toast.LENGTH_SHORT).show();
-//                            }else {
-////                                joinRoomDialog.dismiss();
-//                                finish();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                        }
-//                    });
-
                     database.getReference().child("RoomQueue").child(code).addListenerForSingleValueEvent(new ValueEventListener() {
                         boolean roomExists = false;
+
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                    joinRoomDialog.dismiss();
-                                    RoomQueues roomQueues = snapshot.getValue(RoomQueues.class);
-                                    roomExists = true;
-                                    String id1 = roomQueues.getCreatorId();
-                                    String id2 = auth.getCurrentUser().getUid();
-                                    String roomId;
-                                    if(id1.compareTo(id2) < 0)
-                                        roomId = id1 + id2;
-                                    else
-                                        roomId = id2 + id1;
-                                    Intent intent = new Intent(RoomCodeActivity.this, PlayWithFriendActivity.class);
-                                    intent.putExtra("code", code);
-                                    intent.putExtra("roomId", roomId);
-                                    intent.putExtra("role", "sidekick");
-                                    intent.putExtra("difficulty", roomQueues.getDifficulty());
-                                    startActivity(intent);
-                                    finish();
-
-                            }
-
-                            loading.setVisibility(View.GONE);
-                            if(!roomExists){
-                                Toast.makeText(RoomCodeActivity.this, "Room doesn't exists", Toast.LENGTH_SHORT).show();
-                            }else {
+                            if (snapshot.exists()) {
 //                                joinRoomDialog.dismiss();
-                                finish();
-                            }
+                                RoomQueues roomQueues = snapshot.getValue(RoomQueues.class);
+                                roomExists = true;
 
+                                Room room1 = new Room();
+                                room1.setRoomCode(code);
+                                room1.setRoomId(code);
+                                room1.setDifficulty(roomQueues.getDifficulty());
+                                database.getReference().child("Rooms").child(code).setValue(room1);
+
+
+                                database.getReference().child("Rooms").child(code).addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()) {
+                                            Room room = snapshot.getValue(Room.class);
+                                            Intent intent = new Intent(RoomCodeActivity.this, PlayWithFriendActivity.class);
+                                            intent.putExtra("code", code);
+                                            intent.putExtra("roomId", code);
+                                            intent.putExtra("role", "sidekick");
+//                                            intent.putExtra("room", room);
+                                            intent.putExtra("difficulty", roomQueues.getDifficulty());
+                                            intent.putExtra("sudokuMaker", sudokuMaker);
+                                            if (room.sidekickHasLoaded && room.creatorHasLoaded) {
+                                                // send intent
+                                                Log.d("TAG", "Loaded both");
+                                                database.getReference().child("Rooms").child(code).removeEventListener(this);
+                                                joinRoomDialog.dismiss();
+                                                startActivity(intent);
+                                                finish();
+                                            } else if (room.sidekickHasLoaded && !room.creatorHasLoaded) {
+                                                // wait/do nothing
+                                                Log.d("TAG", "Loaded sidekick not creator");
+                                            } else if (!room.sidekickHasLoaded) {
+                                                // load sudoku
+                                                if (!loadingAlreadyStarted) {
+                                                    Log.d("TAG", "Loading sidekick");
+                                                    new StartFriendActivityTask(RoomCodeActivity.this, sudokuMaker).execute(intent);
+                                                    loadingAlreadyStarted = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            } else {
+                                loading.setVisibility(View.GONE);
+                                Toast.makeText(RoomCodeActivity.this, "Room doesn't exists", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override
@@ -426,12 +473,11 @@ public class RoomCodeActivity extends AppCompatActivity{
 
                         }
                     });
+
                 }
 
 
-
-
-            }
+                }
         });
     }
 
@@ -463,6 +509,10 @@ public class RoomCodeActivity extends AppCompatActivity{
     @Override
     public void finish() {
         super.finish();
+
+        handler.removeCallbacks(runnable);
+        fadeStopMediaPlayer();
+
         if(createRoomDialogOn)
             createRoomDialog.dismiss();
         if (joinRoomDialogOn)
@@ -470,4 +520,144 @@ public class RoomCodeActivity extends AppCompatActivity{
         if(difficultyDialogOn)
             difficultyDialog.dismiss();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        playBackgroundMusic();
+        playNatureSounds();
+    }
+
+    private void setCurrentVolume(int currVolume){
+        if(northPlayer!=null) {
+            final float volume = (float) (1 - (Math.log(MAX_VOLUME - currVolume) / Math.log(MAX_VOLUME)));
+            northPlayer.setVolume(volume, volume); //set volume takes two paramater
+        }
+    }
+
+    private void fadeOutAudio(){
+        final int[] i = {99};
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(i[0]>0) {
+                    setCurrentVolume(i[0]);
+                    i[0] = i[0] - 1;
+                    handler.postDelayed(this, 7);
+                } else {
+                    if(northPlayer!=null) {
+                        northPlayer.stop();
+                        northPlayer.release();
+                        northPlayer = null;
+                    }
+                }
+            }
+        };
+        handler.post(runnable);
+    }
+
+    private void playBackgroundMusic(){
+        if(northPlayer == null)
+            northPlayer = MediaPlayer.create(this, R.raw.northern_lights);
+
+        northPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playBackgroundMusic();
+            }
+        });
+
+        northPlayer.start();
+    }
+
+    private void playNatureSounds(){
+        if(naturePlayer == null)
+            naturePlayer = MediaPlayer.create(this, R.raw.nature_sound);
+        naturePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playNatureSounds();
+            }
+        });
+
+        naturePlayer.start();
+    }
+
+    private void fadeStopMediaPlayer(){
+        if(northPlayer != null){
+            fadeOutAudio();
+        }
+
+        if(naturePlayer != null){
+            naturePlayer.stop();
+            naturePlayer.release();
+            naturePlayer = null;
+        }
+    }
+
+    private void stopMediaPlayer(){
+        if(northPlayer != null){
+            northPlayer.stop();
+            northPlayer.release();
+            northPlayer = null;
+        }
+
+        if(naturePlayer != null){
+            naturePlayer.stop();
+            naturePlayer.release();
+            naturePlayer = null;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopMediaPlayer();
+    }
+}
+
+class StartFriendActivityTask extends AsyncTask<Intent, Void, Void> {
+    private Context context;
+    private FirebaseDatabase database;
+    private FirebaseAuth auth;
+    int difficulty;
+    String role;
+    String code;
+    String roomId;
+    Intent intent;
+    SudokuMaker sudokuMaker;
+    public StartFriendActivityTask(Context context, SudokuMaker sudokuMaker){
+
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+
+        this.context = context;
+        this.sudokuMaker = sudokuMaker;
+    }
+
+
+    @Override
+    protected Void doInBackground(Intent... intents) {
+        intent = intents[0];
+        difficulty = intents[0].getIntExtra("difficulty", SudokuMaker.MEDIUM);
+        role = intents[0].getStringExtra("role");
+        code = intents[0].getStringExtra("code");
+        roomId = intents[0].getStringExtra("roomId");
+        sudokuMaker.setDifficulty(difficulty);
+        Log.d("madeSudoku", "made sudoku");
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void sudokuMaker) {
+        if(role.equals("creator")){
+            database.getReference().child("Rooms").child(roomId).child("creatorHasLoaded").setValue(true);
+        } else{
+            database.getReference().child("Rooms").child(roomId).child("sidekickHasLoaded").setValue(true);
+        }
+        Log.d("values",role + ": done");
+    }
+
+
 }

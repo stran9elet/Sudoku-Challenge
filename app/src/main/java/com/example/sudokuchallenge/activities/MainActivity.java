@@ -7,10 +7,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -62,9 +67,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    //ToDo: make difficulty dialog disappear when user clicks outside it, and also fill the background of difficulty dialog
-
+    //ToDo: deleting rooms, add more difficulty levels, make the screen to not turn off while playing the game, add rotation lock for landscape mode, or just make it for landscape, add opponent's profile instead of writing opponent sudoku, add opponents to be able to uplioad images, or just leave it, make bigger buttons for some devices
+    //ToDo: also, send a notification everyday, impliment play again in play with friend activity
     public static final String DATE_KEY = "date";
+    private static final int MAX_VOLUME = 100;
+
+
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseAuth auth;
     private FirebaseDatabase database;
@@ -88,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout storeButton;
     private RelativeLayout signInButton;
     private RelativeLayout settingsButton;
+    private RelativeLayout howToPlayButton;
 //    private RelativeLayout dailyRewardButton;
 
     private Dialog signUpDialog;
@@ -99,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
     private User user;
     private SharedPreferences.Editor editor;
 
+    private MediaPlayer northernLightsPlayer;
+    private MediaPlayer natureSoundsPlayer;
+
+    private SoundPool soundPool;
+    private int buttonSound;
+
     public static final String DIALOG_OPEN_KEY = "dialogOpen";
     public static final String SIGNING_WITH_GOOGLE_KEY = "SigningWithGoogle";
 
@@ -106,6 +121,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION) //you can just press ctrl+b after clicking on USAGE_, and it will take you to a new java file where you can see descriptions of all these usage constants
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION) //same here as above, press ctrl+b
+                    .build();
+
+            soundPool = new SoundPool.Builder().setMaxStreams(1).setAudioAttributes(audioAttributes).build();
+        } else{
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        }
+
+        buttonSound = soundPool.load(MainActivity.this, R.raw.button_click, 1);//priority doesn't has any effect here, but it's recommended to pass a 1 here for future compatibility
+        //oh! and don't forget to override onDestroy to release the soundPool object
+
+
+
+//        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+//            @Override
+//            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+//                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
+//                Toast.makeText(MainActivity.this, "Loaded", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         auth = FirebaseAuth.getInstance();
@@ -151,10 +191,44 @@ public class MainActivity extends AppCompatActivity {
         signInButton = findViewById(R.id.sign_in_button);
         settingsButton = findViewById(R.id.main_settings_button);
         dailyChallengeBtn = findViewById(R.id.daily_challenge_btn);
+        howToPlayButton = findViewById(R.id.how_to_play_button);
+
+        howToPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
+                //ToDo: show how to play dialog
+            }
+        });
+
+        storeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
+                //ToDo: show store dialog
+            }
+        });
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
+                //ToDo: show settings dialog
+            }
+        });
 
         playOnlineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound,1 , 1, 1, 0, 1);
+                /**
+                 here the attributes are button sound
+                 leftVolume, which will be the volume from the left speaker. Pass a value between 0.0 and 1.0
+                 rightVolume, which will be the volume from the right speaker. Pass a value between 0.0 and 1.0
+                 priority, just pass 0 in here
+                 loop, set any number here to tell how many times to loop the sound, or pass -1 if you want to loop the sound indefinitely
+                 rate, tells how fast you want your sound to be played. Pass a float b/w 1.0 and 2.0 for it
+                 **/
                 Dialog dialog = new Dialog(MainActivity.this);
                 dialog.setContentView(R.layout.notice_dialog);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(0, 0, 0, 0)));
@@ -196,13 +270,14 @@ public class MainActivity extends AppCompatActivity {
             setConfirmationDialog = true;
         }
 
-        PushDownAnim.setPushDownAnimTo(newGameButton, resumeGameButton, playOnlineButton, playWithFriend, profileButton, storeButton, signInButton, settingsButton, dailyChallengeBtn)
+        PushDownAnim.setPushDownAnimTo(newGameButton, resumeGameButton, playOnlineButton, playWithFriend, profileButton, storeButton, signInButton, settingsButton, dailyChallengeBtn, howToPlayButton)
                 .setScale(0.8f);
 
         boolean finalSetConfirmationDialog = setConfirmationDialog;
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                 if(finalSetConfirmationDialog)
                     setConfirmation();
                 else
@@ -213,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
         resumeGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                 Intent intent = new Intent(MainActivity.this, BlankActivity.class);
                 intent.putExtra("target", "GameActivity");
                 intent.putExtra("gameType", "resume game");
@@ -225,11 +301,16 @@ public class MainActivity extends AppCompatActivity {
         playWithFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                 if(auth.getCurrentUser()!=null){
                     if(!isNetworkAvailable()){
                         showNetworkErrorDialog();
                     }else {
                         Intent intent = new  Intent(MainActivity.this, RoomCodeActivity.class);
+                        if(northernLightsPlayer!=null)
+                            intent.putExtra("northernPosition", northernLightsPlayer.getCurrentPosition());
+                        if(natureSoundsPlayer!=null)
+                            intent.putExtra("naturePosition", natureSoundsPlayer.getCurrentPosition());
                         startActivity(intent);
                     }
                 }else {
@@ -241,6 +322,7 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                 showSignInDialog();
             }
         });
@@ -248,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                 showProfileDialog();
             }
         });
@@ -271,6 +354,7 @@ public class MainActivity extends AppCompatActivity {
             dailyChallengeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                     SharedPreferences.Editor editor = userDataSharedPreferences.edit();
                     editor.putString(DATE_KEY, currentDate);
                     editor.apply();
@@ -292,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
                 dailyChallengeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                         Intent intent = new Intent(MainActivity.this, BlankActivity.class);
                         intent.putExtra("target", "GameActivity");
                         intent.putExtra("gameType", "resume game");
@@ -370,6 +455,7 @@ public class MainActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(buttonSound, 0.99f, 0.99f, 1, 0, 0.99f);
                 showSignInDialog();
                 signInPrompt.dismiss();
             }
@@ -1124,4 +1210,124 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private void playBackgroundMusic(){
+        if(northernLightsPlayer == null)
+            northernLightsPlayer = MediaPlayer.create(this, R.raw.northern_lights);
+
+        northernLightsPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playBackgroundMusic();
+            }
+        });
+
+        northernLightsPlayer.start();
+    }
+
+    private void playNatureSounds(){
+        if(natureSoundsPlayer == null)
+            natureSoundsPlayer = MediaPlayer.create(this, R.raw.nature_sound);
+        natureSoundsPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playNatureSounds();
+            }
+        });
+
+        natureSoundsPlayer.start();
+    }
+
+    private void pauseBackgroundMusic(){
+        if(northernLightsPlayer != null){
+            northernLightsPlayer.pause();
+        }
+        if(natureSoundsPlayer != null){
+            natureSoundsPlayer.pause();
+        }
+    }
+
+    private void stopBackgroundMusic(){
+
+    }
+
+    private void fadeStopMediaPlayer(){
+        if(northernLightsPlayer != null){
+            fadeOutAudio();
+        }
+
+        if(natureSoundsPlayer != null){
+            natureSoundsPlayer.stop();
+            natureSoundsPlayer.release();
+            natureSoundsPlayer = null;
+        }
+    }
+
+    private void stopMediaPlayer(){
+        if(northernLightsPlayer != null){
+            northernLightsPlayer.stop();
+            northernLightsPlayer.release();
+            northernLightsPlayer = null;
+        }
+
+        if(natureSoundsPlayer != null){
+            natureSoundsPlayer.stop();
+            natureSoundsPlayer.release();
+            natureSoundsPlayer = null;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        playBackgroundMusic();
+        playNatureSounds();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopMediaPlayer();
+    }
+
+    private void setCurrentVolume(int currVolume){
+        if(northernLightsPlayer!=null) {
+            final float volume = (float) (1 - (Math.log(MAX_VOLUME - currVolume) / Math.log(MAX_VOLUME)));
+            northernLightsPlayer.setVolume(volume, volume); //set volume takes two paramater
+        }
+    }
+
+    private void fadeOutAudio(){
+        final int[] i = {99};
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(i[0]>0) {
+                    setCurrentVolume(i[0]);
+                    i[0] = i[0] - 1;
+                    handler.postDelayed(this, 7);
+                } else {
+                    if(northernLightsPlayer!=null) {
+                        northernLightsPlayer.stop();
+                        northernLightsPlayer.release();
+                        northernLightsPlayer = null;
+                    }
+                }
+            }
+        };
+        handler.post(runnable);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        fadeStopMediaPlayer();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundPool.release();
+        soundPool = null;
+    }
 }

@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -23,7 +28,6 @@ import com.example.sudokuchallenge.R;
 import com.example.sudokuchallenge.customViews.SudokuBoard;
 import com.example.sudokuchallenge.models.User;
 import com.example.sudokuchallenge.utils.SudokuMaker;
-import com.example.sudokuchallenge.utils.UserPoster;
 import com.google.gson.Gson;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
@@ -44,6 +48,10 @@ public class GameActivity extends AppCompatActivity {
     public static final String NEXT_DAY_KEY = "next day";
     public static final String STREAK_RESET_DAY = "day after tomorrow";
 
+    private static final int MAX_VOLUME= 100;
+
+    private boolean finishedWithinTime;
+
     SudokuMaker sudokuMaker;
     SudokuBoard sudokuBoard;
     private TextView timeTextView;
@@ -60,12 +68,19 @@ public class GameActivity extends AppCompatActivity {
     private User user;
     private SharedPreferences.Editor userDataEditor;
 
+    private MediaPlayer player;
+    private SoundPool soundPool;
+
+    private int btnClickSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        UserPoster.init(this);
+        //i don't think we need to initialize user poster here also
+        finishedWithinTime = true;
+        initializeSoundPool();
 
         userDataSharedPreferences = getSharedPreferences(SigningActivity.USER_DATA_PREFERENCE_KEY, MODE_PRIVATE);
         String jsonUser = userDataSharedPreferences.getString(SigningActivity.USER_KEY, null);
@@ -79,6 +94,7 @@ public class GameActivity extends AppCompatActivity {
         backImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 onBackPressed();
             }
         });
@@ -87,6 +103,7 @@ public class GameActivity extends AppCompatActivity {
         settingsImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 //Todo: open settings dialog
             }
         });
@@ -96,9 +113,6 @@ public class GameActivity extends AppCompatActivity {
 
         if (gameType.equals("new game")) {
             difficulty = getIntent().getIntExtra("difficulty", SudokuMaker.EASY);
-//            sudokuBoard.setDifficulty(difficulty);
-            // i think we can get sudoku from blank activity, with the intent as a string
-//            sudokuMaker = sudokuBoard.getSudokuMaker();
             sudokuMaker = (SudokuMaker)  getIntent().getSerializableExtra("sudokuMaker");
             sudokuBoard.setSudokuMaker(sudokuMaker);
             if (difficulty == SudokuMaker.TIME_ATTACK) {
@@ -155,6 +169,7 @@ public class GameActivity extends AppCompatActivity {
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(1);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -164,6 +179,7 @@ public class GameActivity extends AppCompatActivity {
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(2);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -173,6 +189,7 @@ public class GameActivity extends AppCompatActivity {
         imageView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(3);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -182,6 +199,7 @@ public class GameActivity extends AppCompatActivity {
         imageView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(4);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -191,6 +209,7 @@ public class GameActivity extends AppCompatActivity {
         imageView5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(5);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -200,6 +219,7 @@ public class GameActivity extends AppCompatActivity {
         imageView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(6);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -209,6 +229,7 @@ public class GameActivity extends AppCompatActivity {
         imageView7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(7);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -218,6 +239,7 @@ public class GameActivity extends AppCompatActivity {
         imageView8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(8);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -227,6 +249,7 @@ public class GameActivity extends AppCompatActivity {
         imageView9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(9);
                 sudokuBoard.invalidate();
                 if (checkSudoku(sudokuMaker.getWorkingBoard(), sudokuMaker.getFullBoard()))
@@ -237,6 +260,7 @@ public class GameActivity extends AppCompatActivity {
         resetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(SudokuMaker.RESET);
                 sudokuBoard.invalidate();
             }
@@ -244,6 +268,7 @@ public class GameActivity extends AppCompatActivity {
         undoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(SudokuMaker.UNDO);
                 sudokuBoard.invalidate();
             }
@@ -251,13 +276,14 @@ public class GameActivity extends AppCompatActivity {
         redoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 sudokuMaker.setNumberPosition(SudokuMaker.REDO);
                 sudokuBoard.invalidate();
             }
         });
 
         PushDownAnim.setPushDownAnimTo(imageView1, imageView2, imageView3, imageView4, imageView5,
-                imageView6, imageView7, imageView8, imageView9, undoImage, resetImage, redoImage, backImage).setScale(0.8f);
+                imageView6, imageView7, imageView8, imageView9, undoImage, resetImage, redoImage, backImage, settingsImage).setScale(0.8f);
 
         timeTextView = (TextView) findViewById(R.id.time_view);
         timeOutTextView = (ImageView) findViewById(R.id.timeout_view);
@@ -269,8 +295,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        fadeOutAudio();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
+        stopBackgroundMusic();
         SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -319,6 +352,7 @@ public class GameActivity extends AppCompatActivity {
                     timeTextView.setText(time);
                     timeHandler.postDelayed(this, 1000);
                     sudokuMaker.secondsElapsed++;
+                    finishedWithinTime = false;
                 } else {
                     int hours = (sudokuMaker.timeLimit - sudokuMaker.secondsElapsed) / 3600;
                     int minutesLeft = ((sudokuMaker.timeLimit - sudokuMaker.secondsElapsed) % 3600) / 60;
@@ -430,7 +464,8 @@ public class GameActivity extends AppCompatActivity {
             else if(difficulty==SudokuMaker.DIFFICULT)
                 user.setDifficultGamesCompleted(user.getDifficultGamesCompleted() + 1);
             else if(difficulty==SudokuMaker.TIME_ATTACK)
-                user.setTimeAttackGamesCompleted(user.getTimeAttackGamesCompleted() + 1);
+                if(finishedWithinTime)
+                    user.setTimeAttackGamesCompleted(user.getTimeAttackGamesCompleted() + 1);
 
             SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCE_KEY, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -480,6 +515,7 @@ public class GameActivity extends AppCompatActivity {
         viewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 dialog.dismiss();
                 LinearLayout linearLayout = findViewById(R.id.btn_row_1);
                 LinearLayout linearLayout1 = findViewById(R.id.btn_row_2);
@@ -495,6 +531,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                         showEndDialog();
                     }
                 });
@@ -507,6 +544,7 @@ public class GameActivity extends AppCompatActivity {
             playAgain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                     dialog.dismiss();
                     Intent intent = new Intent(GameActivity.this, BlankActivity.class);
                     intent.putExtra("target", "GameActivity");
@@ -522,6 +560,7 @@ public class GameActivity extends AppCompatActivity {
         returnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 dialog.dismiss();
                 onBackPressed();
             }
@@ -548,6 +587,7 @@ public class GameActivity extends AppCompatActivity {
         viewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 dialog.dismiss();
                 //check it
                 LinearLayout linearLayout = findViewById(R.id.btn_row_1);
@@ -564,6 +604,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                         showEndDialog();
                     }
                 });
@@ -576,6 +617,7 @@ public class GameActivity extends AppCompatActivity {
             playAgain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                     dialog.dismiss();
                     Intent intent = new Intent(GameActivity.this, BlankActivity.class);
                     intent.putExtra("target", "GameActivity");
@@ -591,48 +633,86 @@ public class GameActivity extends AppCompatActivity {
         returnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundPool.play(btnClickSound, 1, 1, 0, 0, 1);
                 dialog.dismiss();
                 onBackPressed();
             }
         });
     }
 
-    private void countStreak(){
-        String[] monthsArr = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        int[] daysOfMonth = {31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        String currentDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault()).format(new Date());
 
-        int currentYear = Integer.parseInt(currentDate.substring(7));
-        String month = currentDate.substring(3,6);
-        int day = Integer.parseInt(currentDate.substring(0,2));
-        boolean isLeapYear;
-        if(currentYear%4==0){
-            if(currentYear%100==0){
-                if(currentYear%400==0)
-                    isLeapYear = true;
-                else
-                    isLeapYear = false;
-            }else
-                isLeapYear = true;
-        }else{
-            isLeapYear = false;
+
+    private void startBackgroundMusic(){
+        if(player == null)
+            player = MediaPlayer.create(this, R.raw.winter_afternoon);
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                startBackgroundMusic();
+            }
+        });
+
+        player.start();
+    }
+
+    private void stopBackgroundMusic(){
+        if(player != null){
+            player.stop();
+            player.release();
+            player = null;
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startBackgroundMusic();
+    }
+
+    private void setCurrentVolume(int currVolume){
+        if(player!=null) {
+            final float volume = (float) (1 - (Math.log(MAX_VOLUME - currVolume) / Math.log(MAX_VOLUME)));
+            player.setVolume(volume, volume); //set volume takes two paramater
+        }
+    }
+
+    private void fadeOutAudio(){
+        final int[] i = {99};
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if(i[0]>0) {
+                    setCurrentVolume(i[0]);
+                    i[0] = i[0] - 1;
+                    handler.postDelayed(this, 7);
+                } else {
+                    if(player!=null) {
+                        player.stop();
+                        player.release();
+                        player = null;
+                    }
+                }
+            }
+        };
+        handler.post(runnable);
+    }
+
+    private void initializeSoundPool(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION) //you can just press ctrl+b after clicking on USAGE_, and it will take you to a new java file where you can see descriptions of all these usage constants
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION) //same here as above, press ctrl+b
+                    .build();
+
+            soundPool = new SoundPool.Builder().setMaxStreams(1).setAudioAttributes(audioAttributes).build();
+        } else{
+            soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         }
 
-        if (isLeapYear)
-            daysOfMonth[1] = 29;
-        else
-            daysOfMonth[1] = 28;
-
-        int index = -1;
-        for(int i = 0; i<12; i++){
-            if(month.equals(monthsArr[i]))
-                index = i;
-        }
-
-        if(day>daysOfMonth[index]) {
-            day = 1;
-        }
-
+        btnClickSound = soundPool.load(this, R.raw.button_click, 1);//priority doesn't has any effect here, but it's recommended to pass a 1 here for future compatibility
+        //oh! and don't forget to override onDestroy to release the soundPool object
     }
 
 }

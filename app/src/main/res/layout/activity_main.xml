@@ -107,7 +107,7 @@
             android:fontFamily="casual"
             android:gravity="center"
             android:paddingTop="10dp"
-            android:text="Play with friend"
+            android:text="Challenge friend"
             android:textColor="@color/grid_color"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -324,15 +324,22 @@
                     app:srcCompat="@drawable/store_vector" />
             </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/how_to_play_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_centerVertical="true">
+
             <ImageView
                 android:id="@+id/imageView28"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:srcCompat="@drawable/main_menu_buttons" />
+                app:srcCompat="@drawable/help_button" />
+        </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 

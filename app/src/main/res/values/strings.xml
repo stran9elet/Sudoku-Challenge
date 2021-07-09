@@ -1,6 +1,20 @@
 <resources>
-    <string name="app_name">SudokuChallenge</string>
+    <string name="app_name">Sudoku\nChallenge</string>
 
     <string name="create_account"> <u>Create Account</u></string>
     <string name="sign_in"> <u>Sign In</u></string>
+
+    <string name="rate_dialog_title">Rate app</string>
+    <string name="rate_dialog_message">A feedback from your side would be very helpful and will encourage the developers to make more such apps. Thanks for your support!</string>
+    <string name="rate_dialog_ok">RATE IT NOW</string>
+    <string name="rate_dialog_cancel">REMIND ME LATER</string>
+    <string name="rate_dialog_no">NO, THANKS</string>
+
+    <string name="how_to_play_para_1">Sudoku is played on a grid of 9 x 9 spaces. Within the rows and columns are 9 “squares” (made up of 3 x 3 spaces). Each row, column and square (9 spaces each) needs to be filled out with the numbers 1–9, without repeating any numbers within the row, column or square. Each Sudoku grid comes with a few spaces already filled\n</string>
+    <string name="how_to_play_para_2">So you have to put numbers from 1 to 9 in each row like-</string>
+    <string name="how_to_play_para_3">and you have to put numbers from 1 to 9 in each column like-</string>
+    <string name="how_to_play_para_4">and also put numbers from 1 to 9 in each bigger square like-</string>
+    <string name="how_to_play_para_5">without repeating any number in  the same row, column or big square</string>
+    <string name="how_to_play_para_6">A complete sudoku should look like this-</string>
+
 </resources>

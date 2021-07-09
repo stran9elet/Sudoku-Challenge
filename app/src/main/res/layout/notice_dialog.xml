@@ -32,7 +32,7 @@
         android:layout_marginTop="42dp"
         android:layout_marginBottom="42dp">
 
-        <com.example.sudokuchallenge.customViews.ConfirmationTextView
+        <com.strangelet.sudokuchallenge.customViews.ConfirmationTextView
             android:id="@+id/confirmation_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

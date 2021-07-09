@@ -10,17 +10,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DialogAnimation" parent="@android:style/Theme.Holo.Light.Panel">
-        <item name="android:windowAnimationStyle">@style/popUpAnim</item>
-        <item name="android:backgroundDimEnabled">true</item>
+    <style name="DifficultyDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_new</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_new</item>
     </style>
 
-    <style name="popUpAnim">
-        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
-        <item name="android:windowAnimationStyle">@android:anim/slide_out_right</item>
-    </style>
-
-    <style name="scale_anim">
-        <item name="android:windowAnimationStyle">@anim/scale_anim</item>
-    </style>
 </resources>

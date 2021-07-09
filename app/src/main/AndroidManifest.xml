@@ -1,48 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sudokuchallenge">
+    package="com.strangelet.sudokuchallenge">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
+        android:name="com.strangelet.sudokuchallenge.utils.NotificationHelper"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SudokuTheme">
-        <activity android:name=".activities.SigningActivity"
-            android:launchMode="singleTop">
+        <activity android:name="com.strangelet.sudokuchallenge.activities.ServiceActivity"></activity>
+
+        <receiver
+            android:name="com.strangelet.sudokuchallenge.utils.NotifReceiver"
+            android:enabled="true"
+            android:exported="false">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.BOOT_COMPLETED"/> -->
+            <!-- </intent-filter> -->
+        </receiver> <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <!-- Sample AdMob Ad ID: ca-app-pub-3940256099942544/5224354917 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6250842590816182~7514501041" />
+
+        <activity
+            android:name="com.strangelet.sudokuchallenge.activities.SigningActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RoomCodeActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activities.PlayWithFriendActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activities.BlankActivity"
-            android:launchMode="singleTop"/>
         <activity
-            android:name=".activities.GameActivity"
+            android:name="com.strangelet.sudokuchallenge.activities.RoomCodeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.strangelet.sudokuchallenge.activities.PlayWithFriendActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.strangelet.sudokuchallenge.activities.BlankActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.strangelet.sudokuchallenge.activities.GameActivity"
             android:configChanges="orientation|screenSize"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activities.MainActivity"
-            android:launchMode="singleTop">
-        </activity>
-
-        <receiver android:name=".customViews.NetworkChangeReceiver"
-            android:label="NetworkChangeReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-            </intent-filter>
-        </receiver>
-
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.strangelet.sudokuchallenge.activities.MainActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -7,8 +7,39 @@
     <color name="initial_digit_color">#FFA000</color>
     <color name="main_cell_color">#7E46E1F6</color>
     <color name="secondary_cell_color">#4664EFFB</color>
+    <color name="outline_color"> #683805</color>
+
+    <color name="main_cell_color_northern_lights">#7E40C0D1</color>
+    <color name="grid_color_northern_lights">#00ff6e</color>
+    <color name="digit_color_northern_lights">#EEBDFB</color>
+    <color name="error_digit_color_northern_lights">#E9D03B51</color>
+
+    <color name="main_cell_color_space">#ADC6CACA</color>
+    <color name="secondary_cell_color_space">#59C6CACA</color>
+    <color name="grid_color_space">#FDFDFD</color>
+    <color name="digit_color_space">#018FDC</color>
+    <color name="error_digit_color_space">#E9D03B51</color>
+
+    <color name="main_cell_color_red">#8B352929</color>
+    <color name="secondary_cell_color_red">#59746666</color>
+    <color name="grid_color_red">#000000</color>
+    <color name="digit_color_red">#D0FFFFFF</color>
+    <color name="error_digit_color_red">#E9D03B51</color>
+
+    <color name="main_cell_color_minimalist">#63E8CB7F</color>
+    <color name="secondary_cell_color_minimalist">#32FFDA7A</color>
+    <color name="grid_color_minimalist">#f1594e</color>
+    <color name="digit_color_minimalist">#ffc52c</color>
+    <color name="error_digit_color_minimalist">#54D03B51</color>
+
+    <color name="main_cell_color_rainbow">#3EFFC802</color>
+    <color name="secondary_cell_color_rainbow">#2FFFD500</color>
+    <color name="grid_color_rainbow">#ffa7e6</color>
+    <color name="digit_color_rainbow">#00DEDA</color>
+    <color name="error_digit_color_rainbow">#f1594e</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
     <color name="colorAccent">#662E04</color>
+
 </resources>

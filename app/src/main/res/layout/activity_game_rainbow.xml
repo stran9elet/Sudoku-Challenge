@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.GameActivity"
+    android:clipChildren="false">
+
+    <ImageView
+        android:id="@+id/game_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:srcCompat="@drawable/rainbow_background" />
+
+    <RelativeLayout
+        android:id="@+id/sudoku"
+        android:layout_width="540dp"
+        android:layout_height="540dp"
+        android:layout_margin="-100dp"
+        android:layout_marginTop="90dp"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+
+        <ImageView
+            android:id="@+id/game_board"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="55dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginBottom="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/rainbow_board" />
+
+        <com.strangelet.sudokuchallenge.customViews.SudokuBoard
+            android:id="@+id/sudoku_board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="105dp"
+            android:layout_marginRight="105dp"
+            custom:digitColor="@color/digit_color_rainbow"
+            custom:errorDigitCellColor="@color/error_digit_color_rainbow"
+            custom:gridColor="@color/grid_color_rainbow"
+            custom:initialDigitColor="@color/grid_color_rainbow"
+            custom:mainCellColor="@color/main_cell_color_rainbow"
+            custom:secondaryCellColor="@color/secondary_cell_color_rainbow"
+            android:keepScreenOn="true"/>
+
+        <ImageView
+            android:id="@+id/timeout_view"
+            android:layout_marginTop="120dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="120dp"
+            android:layout_marginLeft="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:src="@drawable/timeout_image"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/time_view"
+            android:layout_width="141dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="22dp"
+            android:layout_marginRight="84dp"
+            android:background="@drawable/time_clouds_rainbow"
+            android:gravity="center"
+            android:text="00:00:00"
+            android:textColor="@color/digit_color_minimalist"
+            android:textSize="24sp" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="@+id/sudoku">
+
+        <com.strangelet.sudokuchallenge.customViews.ConfirmationTextView
+            android:id="@+id/complete_btn"
+            android:layout_width="162dp"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:background="@drawable/daily_reward_btn"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:text="View result"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            custom:innerTextColor="@color/grid_color"
+            custom:outlineColor="@color/colorAccent" />
+
+        <LinearLayout
+            android:id="@+id/btn_row_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:maxHeight="72dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/undo_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/undo_btn_rainbow" />
+
+            <ImageView
+                android:id="@+id/redo_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/redo_btn_rainbow" />
+
+            <ImageView
+                android:id="@+id/reset_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/reset_btn_rainbow" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_row_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:maxHeight="72dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_1_rainbow" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_2_rainbow" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_3_rainbow" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_4_rainbow" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_5_rainbow" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_row_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:maxHeight="72dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_6_rainbow" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_7_rainbow" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_8_rainbow" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                android:scaleType="fitXY"
+                custom:srcCompat="@drawable/image_view_9_rainbow" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="32dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="18dp"
+        android:scaleType="fitXY"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:srcCompat="@drawable/back_btn_rainbow" />
+
+    <ImageView
+        android:id="@+id/settings_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:srcCompat="@drawable/settings_btn_rainbow" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

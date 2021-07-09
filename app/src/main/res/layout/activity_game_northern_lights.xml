@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.GameActivity"
+    android:clipChildren="false">
+
+    <ImageView
+        android:id="@+id/game_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:srcCompat="@drawable/northern_lights_background" />
+
+
+    <RelativeLayout
+        android:id="@+id/sudoku"
+        android:layout_width="540dp"
+        android:layout_height="540dp"
+        android:layout_margin="-100dp"
+        android:layout_marginTop="90dp"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+
+        <ImageView
+            android:id="@+id/game_board"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="0dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/game_board_northern_lights" />
+
+        <com.strangelet.sudokuchallenge.customViews.SudokuBoard
+            android:id="@+id/sudoku_board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="105dp"
+            android:layout_marginTop="105dp"
+            android:layout_marginRight="105dp"
+            custom:digitColor="@color/digit_color_northern_lights"
+            custom:errorDigitCellColor="@color/error_digit_color_northern_lights"
+            custom:gridColor="@color/grid_color_northern_lights"
+            custom:initialDigitColor="@color/grid_color_northern_lights"
+            custom:mainCellColor="@color/main_cell_color_northern_lights"
+            custom:secondaryCellColor="@color/secondary_cell_color"
+            android:keepScreenOn="true"/>
+
+        <ImageView
+            android:id="@+id/timeout_view"
+            android:layout_marginTop="120dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="120dp"
+            android:layout_marginLeft="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:src="@drawable/timeout_image"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/time_view"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="34dp"
+            android:text="00:00:00"
+            android:textColor="#161819"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-thin"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="@+id/sudoku">
+
+        <com.strangelet.sudokuchallenge.customViews.ConfirmationTextView
+            android:id="@+id/complete_btn"
+            android:layout_width="162dp"
+            android:layout_height="68dp"
+            android:layout_gravity="center"
+            android:background="@drawable/daily_reward_btn"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:paddingLeft="4dp"
+            android:text="View result"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            custom:innerTextColor="@color/grid_color"
+            custom:outlineColor="@color/colorAccent" />
+
+        <LinearLayout
+            android:id="@+id/btn_row_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:maxHeight="72dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/undo_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/undo_image_northern_lights" />
+
+            <ImageView
+                android:id="@+id/redo_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/redo_image_northern_lights" />
+
+            <ImageView
+                android:id="@+id/reset_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/reset_image_northern_lights" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_row_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:maxHeight="72dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_1_northern_lights" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_2_northern_lights" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_3_northern_lights" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_4_northern_lights" />
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="2dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_5_northern_lights" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_row_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:maxHeight="72dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_6_northern_lights" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_7_northern_lights" />
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_8_northern_lights" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:adjustViewBounds="true"
+                android:maxWidth="54dp"
+                android:maxHeight="54dp"
+                custom:srcCompat="@drawable/image_view_9_northern_lights" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:srcCompat="@drawable/northern_lights_back_btn_img" />
+
+    <ImageView
+        android:id="@+id/settings_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginRight="14dp"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:srcCompat="@drawable/settings_btn_northern_lights" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,114 +4,172 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/back_screen"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="470dp"
     android:layout_alignParentBottom="true"
     android:background="@drawable/game_type_popup">
 
-        <TextView
-            android:id="@+id/easy_difficulty_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:gravity="center"
-            android:paddingTop="64dp"
-            android:paddingBottom="11dp"
-            android:text="Easy"
-            android:textColor="@color/initial_digit_color"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="46dp">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/grid_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/easy_difficulty_view" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/grid_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/medium_difficulty_view" />
+                        <TextView
+                            android:id="@+id/beginner_difficulty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:paddingTop="24dp"
+                            android:paddingBottom="15dp"
+                            android:text="Beginner"
+                            android:textColor="@color/initial_digit_color"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/time_attack_border"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:background="@color/grid_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/difficult_difficulty_view" />
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:background="@color/grid_color" />
 
-        <TextView
-            android:id="@+id/difficult_difficulty_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:gravity="center"
-            android:paddingTop="24dp"
-            android:paddingBottom="15dp"
-            android:text="Difficult"
-            android:textColor="@color/initial_digit_color"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/medium_difficulty_view"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/medium_difficulty_view"
-            app:layout_constraintTop_toBottomOf="@+id/medium_difficulty_view" />
+                        <TextView
+                            android:id="@+id/easy_difficulty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:text="Easy"
+                            android:textColor="@color/initial_digit_color"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/time_attack_difficulty_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:gravity="center"
-            android:paddingTop="24dp"
-            android:paddingBottom="32dp"
-            android:text="Time Attack"
-            android:textColor="@color/initial_digit_color"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/difficult_difficulty_view"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/difficult_difficulty_view"
-            app:layout_constraintTop_toBottomOf="@+id/difficult_difficulty_view" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:background="@color/grid_color" />
 
-        <TextView
-            android:id="@+id/medium_difficulty_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="11dp"
-            android:text="Medium"
-            android:textColor="@color/initial_digit_color"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/easy_difficulty_view"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/easy_difficulty_view"
-            app:layout_constraintTop_toBottomOf="@+id/easy_difficulty_view" />
+                        <TextView
+                            android:id="@+id/medium_difficulty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:paddingTop="24dp"
+                            android:paddingBottom="15dp"
+                            android:text="Medium"
+                            android:textColor="@color/initial_digit_color"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:background="@color/grid_color" />
+
+                        <TextView
+                            android:id="@+id/tricky_difficulty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:paddingTop="24dp"
+                            android:paddingBottom="15dp"
+                            android:text="Tricky"
+                            android:textColor="@color/initial_digit_color"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:background="@color/grid_color" />
+
+                        <TextView
+                            android:id="@+id/fiendish_difficulty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:paddingTop="24dp"
+                            android:paddingBottom="15dp"
+                            android:text="Fiendish"
+                            android:textColor="@color/initial_digit_color"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:background="@color/grid_color" />
+
+                        <TextView
+                            android:id="@+id/diabolical_difficulty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:paddingTop="24dp"
+                            android:paddingBottom="15dp"
+                            android:text="Diabolical"
+                            android:textColor="@color/initial_digit_color"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:background="@color/grid_color" />
+
+                        <TextView
+                            android:id="@+id/time_attack_difficulty_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="casual"
+                            android:gravity="center"
+                            android:paddingTop="24dp"
+                            android:paddingBottom="32dp"
+                            android:text="Time Attack"
+                            android:textColor="@color/initial_digit_color"
+                            android:textSize="36sp"
+                            android:textStyle="bold" />
+
+
+                </LinearLayout>
+        </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

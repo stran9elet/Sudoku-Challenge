@@ -28,7 +28,7 @@
 
             <ImageView
                 android:id="@+id/imageView16"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/close_icon" />
@@ -48,56 +48,53 @@
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
 
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="@drawable/confirmation_text_view"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                            android:id="@+id/display_pic"-->
+<!--                            android:layout_width="80dp"-->
+<!--                            android:layout_height="80dp"-->
+<!--                            android:src="@drawable/person_icon"-->
+<!--                            app:civ_border_color="@color/grid_color"-->
+<!--                            app:civ_border_width="2dp" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/profile_change_btn"-->
+<!--                        android:layout_width="32dp"-->
+<!--                        android:layout_height="32dp"-->
+<!--                        android:layout_marginTop="-16dp"-->
+<!--                        android:background="@drawable/profile_change_bg"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:padding="6dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView19"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            app:srcCompat="@drawable/camera_icon" />-->
+<!--                    </LinearLayout>-->
+
+<!--                </LinearLayout>-->
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/confirmation_text_view"
-                        android:orientation="vertical">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/display_pic"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/person_icon"
-                            app:civ_border_color="@color/grid_color"
-                            app:civ_border_width="2dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/profile_change_btn"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginTop="-16dp"
-                        android:background="@drawable/profile_change_bg"
-                        android:orientation="vertical"
-                        android:padding="6dp">
-
-                        <ImageView
-                            android:id="@+id/imageView19"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:srcCompat="@drawable/camera_icon" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginRight="4dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -171,42 +168,41 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/email_box"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/email_box"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical">-->
 
-                        <TextView
-                            android:id="@+id/textView21"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="casual"
-                            android:text="Email"
-                            android:textColor="@color/grid_color"
-                            android:textSize="28sp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/textView21"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="8dp"-->
+<!--                            android:fontFamily="casual"-->
+<!--                            android:text="Email"-->
+<!--                            android:textColor="@color/grid_color"-->
+<!--                            android:textSize="28sp"-->
+<!--                            android:textStyle="bold" />-->
 
 
-                        <TextView
-                            android:id="@+id/email_profile"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="32dp"
-                            android:fontFamily="casual"
-                            android:text="sw621452371127@gmail.com"
-                            android:textColor="@color/grid_color"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/email_profile"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginBottom="32dp"-->
+<!--                            android:fontFamily="casual"-->
+<!--                            android:text="sw621452371127@gmail.com"-->
+<!--                            android:textColor="@color/grid_color"-->
+<!--                            android:textSize="18sp"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="4dp"
-                            android:background="@drawable/confirmation_text_view" />
+<!--                        <TextView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="4dp"-->
+<!--                            android:background="@drawable/confirmation_text_view" />-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
                     <LinearLayout
                         android:id="@+id/solo_game_stats"
@@ -223,7 +219,8 @@
                             android:text="Solo game stats"
                             android:textColor="@color/grid_color"
                             android:textSize="28sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:gravity="center_horizontal" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -271,6 +268,65 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/beginner_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textViewfa"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="casual"
+                                android:text="---Beginner---"
+                                android:textColor="@color/grid_color"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:gravity="center_horizontal"/>
+
+                            <TextView
+                                android:id="@+id/beginner_games_played"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="casual"
+                                android:text="\t Games played- 12"
+                                android:textColor="@color/grid_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/beginner_games_completed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="casual"
+                                android:text="\t Games completed- 7"
+                                android:textColor="@color/grid_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/easy_avg_time"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:fontFamily="casual"-->
+                            <!--                                android:text="\t Average time taken- 12m 32s"-->
+                            <!--                                android:textColor="@color/grid_color"-->
+                            <!--                                android:textSize="18sp"-->
+                            <!--                                android:textStyle="bold" />-->
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/easy_best_time"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:fontFamily="casual"-->
+                            <!--                                android:text="\t Best time taken- 7m 44s"-->
+                            <!--                                android:textColor="@color/grid_color"-->
+                            <!--                                android:textSize="18sp"-->
+                            <!--                                android:textStyle="bold" />-->
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:id="@+id/easy_layout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -282,10 +338,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:fontFamily="casual"
-                                android:text="Easy ->"
+                                android:text="---Easy---"
                                 android:textColor="@color/grid_color"
                                 android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:gravity="center_horizontal"/>
 
                             <TextView
                                 android:id="@+id/easy_games_played"
@@ -340,10 +397,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:fontFamily="casual"
-                                android:text="Medium ->"
+                                android:text="---Medium---"
                                 android:textColor="@color/grid_color"
                                 android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:gravity="center_horizontal"/>
 
                             <TextView
                                 android:id="@+id/medium_games_played"
@@ -387,7 +445,125 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/difficult_layout"
+                            android:id="@+id/tricky_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textViewafd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="casual"
+                                android:text="---Tricky---"
+                                android:textColor="@color/grid_color"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:gravity="center_horizontal" />
+
+                            <TextView
+                                android:id="@+id/tricky_games_played"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="casual"
+                                android:text="\t Games played- 12"
+                                android:textColor="@color/grid_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tricky_games_completed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="casual"
+                                android:text="\t Games completed- 7"
+                                android:textColor="@color/grid_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/medium_avg_time"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:fontFamily="casual"-->
+                            <!--                                android:text="\t Average time taken- 12m 32s"-->
+                            <!--                                android:textColor="@color/grid_color"-->
+                            <!--                                android:textSize="18sp"-->
+                            <!--                                android:textStyle="bold" />-->
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/medium_best_time"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:fontFamily="casual"-->
+                            <!--                                android:text="\t Best time taken- 7m 44s"-->
+                            <!--                                android:textColor="@color/grid_color"-->
+                            <!--                                android:textSize="18sp"-->
+                            <!--                                android:textStyle="bold" />-->
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/fiendish_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView2f"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="casual"
+                                android:text="---Fiendish---"
+                                android:textColor="@color/grid_color"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:gravity="center_horizontal" />
+
+                            <TextView
+                                android:id="@+id/fiendish_games_played"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="casual"
+                                android:text="\t Games played- 12"
+                                android:textColor="@color/grid_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/fiendish_games_completed"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="casual"
+                                android:text="\t Games completed- 7"
+                                android:textColor="@color/grid_color"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/medium_avg_time"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:fontFamily="casual"-->
+                            <!--                                android:text="\t Average time taken- 12m 32s"-->
+                            <!--                                android:textColor="@color/grid_color"-->
+                            <!--                                android:textSize="18sp"-->
+                            <!--                                android:textStyle="bold" />-->
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/medium_best_time"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:fontFamily="casual"-->
+                            <!--                                android:text="\t Best time taken- 7m 44s"-->
+                            <!--                                android:textColor="@color/grid_color"-->
+                            <!--                                android:textSize="18sp"-->
+                            <!--                                android:textStyle="bold" />-->
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/diabolical_layout"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
@@ -398,13 +574,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:fontFamily="casual"
-                                android:text="Difficult ->"
+                                android:text="---Diabolical---"
                                 android:textColor="@color/grid_color"
                                 android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:gravity="center_horizontal" />
 
                             <TextView
-                                android:id="@+id/difficult_games_played"
+                                android:id="@+id/diabolical_games_played"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="casual"
@@ -414,7 +591,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/difficult_games_completed"
+                                android:id="@+id/diabolical_games_completed"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="casual"
@@ -457,10 +634,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:fontFamily="casual"
-                                android:text="Time Attack ->"
+                                android:text="---Time Attack---"
                                 android:textColor="@color/grid_color"
                                 android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:gravity="center_horizontal" />
 
                             <TextView
                                 android:id="@+id/time_attack_games_played"

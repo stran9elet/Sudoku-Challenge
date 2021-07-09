@@ -36,7 +36,7 @@
         android:gravity="center"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
-        android:text="Loading a difficult sudoku might take some time.\nPlease be patient . . ."
+        android:text="Loading a difficult sudoku might take some extra time.\nPlease be patient . . ."
         android:textColor="@color/grid_color"
         android:textSize="24sp"
         android:textStyle="bold"
